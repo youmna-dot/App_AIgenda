@@ -1,0 +1,665 @@
+import 'dart:math' as math;
+import 'package:ajenda_app/core/utils/navigation_helper.dart';
+import 'package:ajenda_app/core/widgets/primary_button.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../core/constants/app_assets.dart';
+import '../../../../../core/constants/app_icons.dart';
+import '../../../../../core/constants/app_strings.dart';
+import '../../../../../core/constants/app_text_styles.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../../../config/routes/route_names.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _bgController;
+  late Animation<double> _bgPulse;
+  late AnimationController _orbitController;
+  late AnimationController _ringController;
+  late Animation<double> _ringScale;
+  late Animation<double> _ringOpacity;
+  late AnimationController _logoController;
+  late Animation<double> _logoScale;
+  late Animation<double> _logoOpacity;
+  late AnimationController _nameController;
+  late Animation<double> _nameOpacity;
+  late Animation<Offset> _nameSlide;
+  late Animation<double> _shimmerProgress;
+  late AnimationController _taglineController;
+  late Animation<double> _taglineOpacity;
+  late Animation<Offset> _taglineSlide;
+  late AnimationController _buttonsController;
+  late Animation<double> _buttonsOpacity;
+  late Animation<Offset> _buttonsSlide;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bgController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..repeat(reverse: true);
+    _bgPulse = CurvedAnimation(parent: _bgController, curve: Curves.easeInOut);
+
+    _orbitController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+
+    _ringController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+    _ringScale = Tween<double>(begin: 0.3, end: 1.0).animate(
+      CurvedAnimation(parent: _ringController, curve: Curves.elasticOut),
+    );
+    _ringOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _ringController, curve: const Interval(0.0, 0.4)),
+    );
+
+    _logoController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    _logoScale = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: Curves.elasticOut),
+    );
+    _logoOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: const Interval(0.0, 0.4)),
+    );
+
+    _nameController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _nameOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _nameController, curve: const Interval(0, 0.5)),
+    );
+    _nameSlide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _nameController, curve: Curves.easeOutCubic),
+        );
+    _shimmerProgress = Tween<double>(begin: -1.0, end: 2.0).animate(
+      CurvedAnimation(parent: _nameController, curve: Curves.easeInOut),
+    );
+
+    _taglineController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+    _taglineOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _taglineController, curve: Curves.easeOut),
+    );
+    _taglineSlide = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _taglineController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
+
+    _buttonsController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+    _buttonsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _buttonsController, curve: Curves.easeOut),
+    );
+    _buttonsSlide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _buttonsController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
+
+    _runSequence();
+  }
+
+  Future<void> _runSequence() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (mounted) _ringController.forward();
+    await Future.delayed(const Duration(milliseconds: 200));
+    if (mounted) _logoController.forward();
+    await Future.delayed(const Duration(milliseconds: 600));
+    if (mounted) _nameController.forward();
+    await Future.delayed(const Duration(milliseconds: 350));
+    if (mounted) _taglineController.forward();
+    await Future.delayed(const Duration(milliseconds: 300));
+    if (mounted) _buttonsController.forward();
+  }
+
+  @override
+  void dispose() {
+    _bgController.dispose();
+    _orbitController.dispose();
+    _ringController.dispose();
+    _logoController.dispose();
+    _nameController.dispose();
+    _taglineController.dispose();
+    _buttonsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: AnimatedBuilder(
+        animation: Listenable.merge([_bgController, _orbitController]),
+        builder: (context, _) {
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.lerp(
+                    AppColors.background,
+                    AppColors.cardBackground,
+                    _bgPulse.value,
+                  )!,
+                  Color.lerp(
+                    AppColors.cardBorder,
+                    AppColors.background,
+                    _bgPulse.value,
+                  )!,
+                  Color.lerp(
+                    AppColors.cardBackground,
+                    AppColors.background,
+                    1 - _bgPulse.value,
+                  )!,
+                ],
+                stops: const [0.0, 0.5, 1.0],
+              ),
+            ),
+            child: Stack(
+              children: [
+                _buildOrbitSystems(size),
+                _buildAmbientBlobs(),
+                _buildMainContent(context),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildOrbitSystems(Size size) {
+    return Stack(
+      children: [
+        _buildOrbitDot(
+          size: size,
+          orbitRadius: 110,
+          dotSize: 8,
+          color: AppColors.primary,
+          opacity: 0.5,
+          speed: 1.0,
+          angleOffset: 0.0,
+        ),
+        _buildOrbitDot(
+          size: size,
+          orbitRadius: 130,
+          dotSize: 5,
+          color: AppColors.gradientBlue,
+          opacity: 0.45,
+          speed: 0.7,
+          angleOffset: 2.1,
+        ),
+        _buildOrbitDot(
+          size: size,
+          orbitRadius: 95,
+          dotSize: 6,
+          color: AppColors.gradientLight,
+          opacity: 0.4,
+          speed: 1.3,
+          angleOffset: 4.2,
+        ),
+        _buildOrbitDot(
+          size: size,
+          orbitRadius: 150,
+          dotSize: 4,
+          color: AppColors.primary,
+          opacity: 0.28,
+          speed: 0.5,
+          angleOffset: 1.0,
+        ),
+        _buildOrbitDot(
+          size: size,
+          orbitRadius: 120,
+          dotSize: 5,
+          color: AppColors.gradientBlue,
+          opacity: 0.32,
+          speed: 0.9,
+          angleOffset: 3.5,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOrbitDot({
+    required Size size,
+    required double orbitRadius,
+    required double dotSize,
+    required Color color,
+    required double opacity,
+    required double speed,
+    required double angleOffset,
+  }) {
+    final cx = size.width / 2;
+    final cy = size.height * 0.34;
+    final angle = _orbitController.value * 2 * math.pi * speed + angleOffset;
+    final x = cx + orbitRadius * math.cos(angle) - dotSize / 2;
+    final y = cy + orbitRadius * 0.45 * math.sin(angle) - dotSize / 2;
+
+    return Positioned(
+      left: x,
+      top: y,
+      child: Opacity(
+        opacity: opacity,
+        child: Container(
+          width: dotSize,
+          height: dotSize,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.7),
+                blurRadius: dotSize * 2,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAmbientBlobs() {
+    return Stack(
+      children: [
+        Positioned(
+          top: -100,
+          left: -100,
+          child: Opacity(
+            opacity: 0.16 + 0.07 * _bgPulse.value,
+            child: Container(
+              width: 360,
+              height: 360,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [AppColors.primary, AppColors.white],
+                ), // عدلنا التدرج
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 60,
+          right: -100,
+          child: Opacity(
+            opacity: 0.12 + 0.06 * (1 - _bgPulse.value),
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [AppColors.gradientBlue, AppColors.white],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMainContent(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 28),
+        child: Column(
+          children: [
+            const Spacer(flex: 2),
+            _buildLogoSection(),
+            const SizedBox(height: 28),
+            _buildAppName(),
+            const SizedBox(height: 14),
+            _buildTagline(),
+            const Spacer(flex: 2),
+            _buildButtons(context),
+            const SizedBox(height: 32),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoSection() {
+    return AnimatedBuilder(
+      animation: Listenable.merge([
+        _logoController,
+        _ringController,
+        _bgController,
+      ]),
+      builder: (context, _) {
+        final floatOffset = math.sin(_bgController.value * math.pi) * 7;
+        return Transform.translate(
+          offset: Offset(0, -floatOffset),
+          child: SizedBox(
+            width: 210,
+            height: 210,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Opacity(
+                  opacity: _ringOpacity.value * 0.4,
+                  child: Transform.scale(
+                    scale: _ringScale.value,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.primary.withOpacity(0.25),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Opacity(
+                  opacity: _ringOpacity.value * 0.3,
+                  child: Transform.scale(
+                    scale: _ringScale.value * 0.82,
+                    child: Container(
+                      width: 165,
+                      height: 165,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.gradientLight.withOpacity(0.3),
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Opacity(
+                  opacity: _logoOpacity.value * (0.2 + 0.1 * _bgPulse.value),
+                  child: Container(
+                    width: 130,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withOpacity(0.55),
+                          blurRadius: 45,
+                          spreadRadius: 18,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Opacity(
+                  opacity: _logoOpacity.value,
+                  child: Transform.scale(
+                    scale: _logoScale.value,
+                    child: Image.asset(
+                      AppAssets.logo,
+                      width: 125,
+                      height: 125,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAppName() {
+    return AnimatedBuilder(
+      animation: _nameController,
+      builder: (context, _) {
+        return FadeTransition(
+          opacity: _nameOpacity,
+          child: SlideTransition(
+            position: _nameSlide,
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                final s = _shimmerProgress.value;
+                return LinearGradient(
+                  begin: Alignment(s - 0.5, 0),
+                  end: Alignment(s + 0.5, 0),
+                  colors: const [
+                    AppColors.textDark,
+                    AppColors.primary,
+                    AppColors.gradientLight,
+                    AppColors.primary,
+                    AppColors.textDark,
+                  ],
+                  stops: const [0.0, 0.3, 0.5, 0.7, 1.0],
+                ).createShader(bounds);
+              },
+              child: Text(AppStrings.appName, style: AppTextStyles.splashTitle),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildTagline() {
+    return AnimatedBuilder(
+      animation: _taglineController,
+      builder: (context, _) {
+        return FadeTransition(
+          opacity: _taglineOpacity,
+          child: SlideTransition(
+            position: _taglineSlide,
+            child: Column(
+              children: [
+                Text(
+                  AppStrings.taglineAr,
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.rtl,
+                  style: AppTextStyles.taglineAr,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  AppStrings.taglineEn,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.taglineEn,
+                ),
+                const SizedBox(height: 16),
+                _buildBreathingDots(),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBreathingDots() {
+    return AnimatedBuilder(
+      animation: _bgController,
+      builder: (context, _) {
+        final pulse0 =
+            math.sin(_bgController.value * math.pi * 2 + 0.0) * 0.5 + 0.5;
+        final pulse1 =
+            math.sin(_bgController.value * math.pi * 2 + 1.05) * 0.5 + 0.5;
+        final pulse2 =
+            math.sin(_bgController.value * math.pi * 2 + 2.1) * 0.5 + 0.5;
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 7,
+              height: 6,
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.55 + 0.45 * pulse0),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+            Container(
+              width: 22 + pulse1 * 6,
+              height: 6,
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              decoration: BoxDecoration(
+                color: AppColors.gradientLight.withOpacity(
+                  0.55 + 0.45 * pulse1,
+                ),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+            Container(
+              width: 7,
+              height: 6,
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              decoration: BoxDecoration(
+                color: AppColors.gradientBlue.withOpacity(0.55 + 0.45 * pulse2),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildButtons(BuildContext context) {
+  return AnimatedBuilder(
+    animation: _buttonsController,
+    builder: (context, child) => FadeTransition(
+      opacity: _buttonsOpacity,
+      child: SlideTransition(position: _buttonsSlide, child: child),
+    ),
+    child: Column(
+      children: [
+        PrimaryButton(
+          text: AppStrings.getStarted,
+          onPressed: () => navigateTo(context, RouteNames.onboarding),
+          trailingWidget: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: AppColors.white.withOpacity(0.18),
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: const Icon(
+              AppIcons.forward,
+              color: AppColors.white,
+              size: 16,
+            ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        GestureDetector(
+          onTap: () => context.go(RouteNames.login),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: AppStrings.alreadyHaveAccount,
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textDark,
+                      fontSize: 15,
+                    ),
+                  ),
+                  TextSpan(
+                    text: AppStrings.signIn,
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+// class _PressScaleButton extends StatefulWidget {
+//   final Widget child;
+//   final VoidCallback onTap;
+//   const _PressScaleButton({required this.child, required this.onTap});
+
+//   @override
+//   State<_PressScaleButton> createState() => _PressScaleButtonState();
+// }
+
+// class _PressScaleButtonState extends State<_PressScaleButton>
+//     with SingleTickerProviderStateMixin {
+//   late AnimationController _ctrl;
+//   late Animation<double> _scale;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _ctrl = AnimationController(
+//       vsync: this,
+//       duration: const Duration(milliseconds: 110),
+//     );
+//     _scale = Tween<double>(
+//       begin: 1.0,
+//       end: 0.96,
+//     ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+//   }
+
+//   @override
+//   void dispose() {
+//     _ctrl.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTapDown: (_) => _ctrl.forward(),
+//       onTapUp: (_) {
+//         _ctrl.reverse();
+//         widget.onTap();
+//       },
+//       onTapCancel: () => _ctrl.reverse(),
+//       child: AnimatedBuilder(
+//         animation: _scale,
+//         builder: (_, child) =>
+//             Transform.scale(scale: _scale.value, child: child),
+//         child: widget.child,
+//       ),
+//     );
+//   }
+// }
+    }
