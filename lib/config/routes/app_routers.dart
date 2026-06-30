@@ -1,10 +1,18 @@
 import 'package:ajenda_app/core/network/api_keys.dart';
 import 'package:ajenda_app/features/profile/logic/profile_cubit/profile_cubit.dart';
-import 'package:ajenda_app/features/profile/presentation/screens/change_password_screen.dart';
 import 'package:ajenda_app/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:ajenda_app/features/profile/presentation/screens/profile_screen.dart';
-import 'package:ajenda_app/main.dart' hide HomeScreen;
+import 'package:ajenda_app/features/settings/presentation/screens/about_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/change_email_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/change_password_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/help_center_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/password_security_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/settings_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/terms_privacy_screen.dart';
+import 'package:ajenda_app/features/settings/presentation/screens/verify_email_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../features/app_startup/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/app_startup/splash/presentation/screens/splash_screen.dart';
 import '../../features/auth/logic/auth_cubit/auth_cubit.dart';
@@ -16,7 +24,6 @@ import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/space/data/models/space_model.dart';
 import '../../features/space/logic/space_cubit/space_cubit.dart';
-
 import '../../features/workspace/logic/permission_cubit/permission_cubit.dart';
 import '../../features/workspace/logic/workspace_cubit/workspace_cubit.dart';
 import '../../features/workspace/presentation/screens/member_screen.dart';
@@ -26,61 +33,41 @@ import '../../features/workspace/presentation/screens/workspace_dashboard_screen
 import '../../features/workspace/presentation/screens/workspaces_screen.dart';
 import '../dependency_injection.dart';
 import 'route_names.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RouteNames.splash /*RouteNames.welcome*/,
+  initialLocation: RouteNames.splash,
   routes: [
+    // ── App Startup ───────────────────────────────────────────
     GoRoute(
       path: RouteNames.splash,
-      builder: (context, state) => const SplashScreen(),
+      builder: (_, __) => const SplashScreen(),
     ),
     GoRoute(
       path: RouteNames.onboarding,
-      builder: (context, state) => const OnboardingScreen(),
+      builder: (_, __) => const OnboardingScreen(),
     ),
-    // ✅ بعد
-    GoRoute(
-      path: RouteNames.home,
-      name: 'home',
-      builder: (context, state) => BlocProvider(
-        create: (_) => getIt<WorkspaceCubit>(),
-        child: const HomeScreen(),
-      ),
-    ),
-    //  Login
+
+    // ── Auth ──────────────────────────────────────────────────
     GoRoute(
       path: RouteNames.login,
-      builder: (context, state) => BlocProvider(
-        create: (context) => getIt<AuthCubit>(),
-        child: LoginScreen(
-          onSwitchToSignUp: () {
-            context.go(RouteNames.register);
-          },
-        ),
+      builder: (context, _) => BlocProvider(
+        create: (_) => getIt<AuthCubit>(),
+        child: LoginScreen(onSwitchToSignUp: () => context.go(RouteNames.register)),
       ),
     ),
-
-    //  Register
     GoRoute(
       path: RouteNames.register,
-      builder: (context, state) => BlocProvider(
-        create: (context) => getIt<AuthCubit>(),
-        child: RegisterScreen(
-          onSwitchToSignIn: () {
-            context.go(RouteNames.login);
-          },
-        ),
+      builder: (context, _) => BlocProvider(
+        create: (_) => getIt<AuthCubit>(),
+        child: RegisterScreen(onSwitchToSignIn: () => context.go(RouteNames.login)),
       ),
     ),
-
     GoRoute(
       path: RouteNames.confirmEmail,
-      builder: (context, state) {
+      builder: (_, state) {
         final extra = state.extra as Map<String, dynamic>?;
-
         return BlocProvider(
-          create: (context) => getIt<AuthCubit>(),
+          create: (_) => getIt<AuthCubit>(),
           child: ConfirmEmailScreen(
             userId: extra?[ApiKeys.userId],
             email: extra?[ApiKeys.email],
@@ -88,70 +75,115 @@ final GoRouter appRouter = GoRouter(
         );
       },
     ),
-    //  Check Email
     GoRoute(
       path: RouteNames.checkEmail,
-      builder: (context, state) => BlocProvider(
-        create: (context) => getIt<AuthCubit>(),
+      builder: (_, __) => BlocProvider(
+        create: (_) => getIt<AuthCubit>(),
         child: CheckEmailScreen(),
       ),
     ),
-
-    //  Enter Code
     GoRoute(
       path: RouteNames.enterCode,
-      builder: (context, state) {
+      builder: (_, state) {
         final extra = state.extra as Map<String, String>?;
         return BlocProvider(
-          create: (context) => getIt<AuthCubit>(),
+          create: (_) => getIt<AuthCubit>(),
           child: EnterCodeScreen(email: extra?['email'], code: extra?['code']),
         );
       },
     ),
 
-    //  Profile
+    // ── Home ──────────────────────────────────────────────────
+    GoRoute(
+      path: RouteNames.home,
+      name: 'home',
+      builder: (_, __) => BlocProvider(
+        create: (_) => getIt<WorkspaceCubit>(),
+        child: const HomeScreen(),
+      ),
+    ),
+
+    // ── Profile ───────────────────────────────────────────────
     GoRoute(
       path: RouteNames.profile,
-      builder: (context, state) => BlocProvider(
+      builder: (_, __) => BlocProvider(
         create: (_) => getIt<ProfileCubit>(),
         child: const ProfileScreen(),
       ),
     ),
-
     GoRoute(
       path: RouteNames.editProfile,
-      builder: (context, state) => BlocProvider.value(
+      builder: (_, __) => BlocProvider.value(
         value: getIt<ProfileCubit>(),
         child: const EditProfileScreen(),
       ),
     ),
 
+    // ── Settings ──────────────────────────────────────────────
+    GoRoute(
+      path: RouteNames.settings,
+      builder: (_, __) => BlocProvider.value(
+        value: getIt<ProfileCubit>(),
+        child: const SettingsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: RouteNames.passwordSecurity,
+      builder: (_, __) => BlocProvider.value(
+        value: getIt<ProfileCubit>(),
+        child: const PasswordSecurityScreen(),
+      ),
+    ),
     GoRoute(
       path: RouteNames.changePassword,
-      builder: (context, state) => BlocProvider.value(
+      builder: (_, __) => BlocProvider.value(
         value: getIt<ProfileCubit>(),
         child: const ChangePasswordScreen(),
       ),
     ),
+    GoRoute(
+      path: RouteNames.changeEmail,
+      builder: (_, __) => BlocProvider.value(
+        value: getIt<ProfileCubit>(),
+        child: const ChangeEmailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: RouteNames.verifyEmail,
+      builder: (_, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        return BlocProvider.value(
+          value: getIt<ProfileCubit>(),
+          child: VerifyEmailScreen(
+            newEmail: extra['newEmail'] as String,
+            id: extra['id'] as String,
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: RouteNames.about,
+      builder: (_, __) => const AboutScreen(),
+    ),
+    GoRoute(
+      path: RouteNames.helpCenter, 
+      builder: (_, __) => const HelpCenterScreen()
+    ),
+    GoRoute(
+      path: RouteNames.termsPrivacy, 
+      builder: (_, __) => const TermsPrivacyScreen()
+    ),
 
-    
-
-...workspaceRoutes
-
-
+    // ── Workspaces ────────────────────────────────────────────
+    ...workspaceRoutes,
   ],
-
 );
 
-
 final workspaceRoutes = [
-  // ── Workspaces List ───────────────────────────
   GoRoute(
     path: RouteNames.workspaces,
     builder: (_, __) => const WorkspacesScreen(),
   ),
-
-  // ── Workspace Dashboard ───────────────────────
   GoRoute(
     path: RouteNames.workspaceDashboard,
     builder: (_, state) {
@@ -165,8 +197,6 @@ final workspaceRoutes = [
       );
     },
   ),
-
-  // ── Members ───────────────────────────────────
   GoRoute(
     path: RouteNames.members,
     builder: (_, state) {
@@ -178,30 +208,24 @@ final workspaceRoutes = [
       );
     },
   ),
-
-  // ── Permissions ───────────────────────────────
   GoRoute(
     path: RouteNames.permissions,
     builder: (_, state) {
       final extra = state.extra as Map<String, dynamic>;
-      final workspaceId = extra['workspaceId'] as int;
-      final userId = extra['userId'] as String;
-      final permissions = List<String>.from(extra['permissions'] as List);
-      final canUserModify = extra['canUserModify'] as bool;
-
       return BlocProvider(
         create: (_) => getIt<PermissionsCubit>()
-          ..init(permissions, canUserModify: canUserModify),
+          ..init(
+            List<String>.from(extra['permissions'] as List),
+            canUserModify: extra['canUserModify'] as bool,
+          ),
         child: PermissionsScreen(
-          workspaceId: workspaceId,
-          userId: userId,
-          canUserModify: canUserModify,
+          workspaceId: extra['workspaceId'] as int,
+          userId: extra['userId'] as String,
+          canUserModify: extra['canUserModify'] as bool,
         ),
       );
     },
   ),
-
-  // ── Space Detail ──────────────────────────────
   GoRoute(
     path: RouteNames.spaceDetail,
     builder: (_, state) {
@@ -210,64 +234,8 @@ final workspaceRoutes = [
         workspaceId: extra['workspaceId'] as int,
         space: extra['space'] as SpaceModel,
         isCurrentUserOwner: extra['isCurrentUserOwner'] as bool,
-        // الـ permissions بتتبعت من WorkspaceDashboardScreen
-        // بدون API call تاني
-        userPermissions: List<String>.from(
-          extra['userPermissions'] as List? ?? [],
-        ),
+        userPermissions: List<String>.from(extra['userPermissions'] as List? ?? []),
       );
     },
   ),
 ];
-
-
-/*
-    //  Workspace route
-    GoRoute(
-      path: RouteNames.workspaces,
-      builder: (context, state) => const WorkspacesScreen(),
-    ),
-
-    // Member route
-    GoRoute(
-      path: RouteNames.members,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-
-        return MembersScreen(
-          workspaceId: extra['workspaceId'],
-          workspaceName: extra['workspaceName'],
-        );
-      },
-    ),
-
-    // Permission route
-    GoRoute(
-      path: RouteNames.permissions,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-
-        return BlocProvider(
-          create: (_) => getIt<PermissionsCubit>()..init(extra['permissions']),
-          child: PermissionsScreen(
-            workspaceId: extra['workspaceId'],
-            userId: extra['userId'],
-          ),
-        );
-      },
-    ),
-
-    //  Space route
-    GoRoute(
-      path: RouteNames.spaces,
-      builder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>;
-        final workspaceId = extras['workspaceId'] as int;
-
-        return BlocProvider(
-          create: (context) => getIt<SpaceCubit>(),
-          child: SpacesTestScreen(workspaceId: workspaceId),
-        );
-      },
-    ),
-    */

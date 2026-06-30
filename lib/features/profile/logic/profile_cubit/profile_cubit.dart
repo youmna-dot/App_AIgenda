@@ -1,3 +1,5 @@
+// lib/features/profile/logic/profile_cubit/profile_cubit.dart
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/storage/secure_storage_service.dart';
 import '../../data/models/change_email_request.dart';
@@ -13,6 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageService storage;
 
   ProfileCubit(this.profileRepository, this.storage) : super(ProfileInitial());
+
   ProfileModel? get currentProfile {
     final s = state;
     if (s is ProfileLoaded) return s.profile;
@@ -90,7 +93,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     result.fold(
       (failure) => emit(ChangeEmailFailure(errMessage: failure)),
-      (_) => emit(ChangeEmailSuccess()),
+      // الـ API مش بترجع id — الـ confirmChangeEmail هيجيبه من storage
+      (_) => emit(ChangeEmailCodeSent(id: '')),
     );
   }
 
@@ -101,10 +105,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) async {
     emit(ConfirmChangeEmailLoading());
 
-    final finalId = id?.isNotEmpty == true ? id! : await storage.getUserId();
+    final finalId = (id != null && id.isNotEmpty)
+        ? id
+        : await storage.getUserId();
 
     if (finalId == null || finalId.isEmpty) {
-      emit(ConfirmChangeEmailFailure(errMessage: "User ID not found."));
+      emit(ConfirmChangeEmailFailure(errMessage: 'User ID not found.'));
       return;
     }
 
@@ -114,7 +120,10 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) => emit(ConfirmChangeEmailFailure(errMessage: failure)),
-      (_) => emit(ConfirmChangeEmailSuccess()),
+      (_) async {
+        await storage.clearAll();
+        emit(ConfirmChangeEmailSuccess());
+      },
     );
   }
 
@@ -124,12 +133,13 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     emit(UploadAvatarLoading());
     final result = await profileRepository.uploadAvatar(filePath);
-    result.fold((failure) => emit(UploadAvatarFailure(errMessage: failure)), (
-      url,
-    ) {
-      final updatedProfile = current.copyWith(profileImage: url);
-      emit(ProfileLoaded(profile: updatedProfile));
-    });
+    result.fold(
+      (failure) => emit(UploadAvatarFailure(errMessage: failure)),
+      (url) {
+        final updatedProfile = current.copyWith(profileImage: url);
+        emit(ProfileLoaded(profile: updatedProfile));
+      },
+    );
   }
 
   Future<void> deleteAvatar() async {
@@ -137,11 +147,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (current == null) return;
 
     final result = await profileRepository.deleteAvatar();
-    result.fold((failure) => emit(UploadAvatarFailure(errMessage: failure)), (
-      _,
-    ) {
-      final updatedProfile = current.copyWith(profileImage: null);
-      emit(ProfileLoaded(profile: updatedProfile));
-    });
+    result.fold(
+      (failure) => emit(UploadAvatarFailure(errMessage: failure)),
+      (_) {
+        final updatedProfile = current.copyWith(profileImage: null);
+        emit(ProfileLoaded(profile: updatedProfile));
+      },
+    );
   }
 }

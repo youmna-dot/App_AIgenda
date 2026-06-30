@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_icons.dart';
 import '../../../../../core/constants/app_values.dart';
-import '../../../../core/constants/app_icons.dart';
 import 'profile_menu_item.dart';
 
 class ProfileMenuCard extends StatefulWidget {
@@ -25,12 +26,7 @@ class _ProfileMenuCardState extends State<ProfileMenuCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppValues.horizontalPadding,
-        24,
-        AppValues.horizontalPadding,
-        0,
-      ),
+      padding: const EdgeInsets.fromLTRB(AppValues.horizontalPadding, 24, AppValues.horizontalPadding, 0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppValues.radiusCard),
         child: BackdropFilter(
@@ -46,10 +42,7 @@ class _ProfileMenuCardState extends State<ProfileMenuCard> {
                 ],
               ),
               borderRadius: BorderRadius.circular(AppValues.radiusCard),
-              border: Border.all(
-                color: AppColors.white.withOpacity(0.7),
-                width: 1.5,
-              ),
+              border: Border.all(color: AppColors.white.withOpacity(0.7), width: 1.5),
             ),
             child: Column(
               children: [
@@ -108,10 +101,10 @@ class _ProfileMenuCardState extends State<ProfileMenuCard> {
   }
 
   Widget _divider() => Divider(
-    height: 1,
-    thickness: 0.5,
-    color: AppColors.primary.withOpacity(0.08),
-    indent: 20,
-    endIndent: 20,
-  );
+        height: 1,
+        thickness: 0.5,
+        color: AppColors.primary.withOpacity(0.08),
+        indent: 20,
+        endIndent: 20,
+      );
 }

@@ -1,3 +1,10 @@
+// lib/core/widgets/primary_button.dart
+//
+// ══════════════════════════════════════════════════════════════
+// PrimaryButton — الزرار الرئيسي للأبلكيشن كله
+// gradient: appPurpleGradient | shape: pill | scale animation
+// ══════════════════════════════════════════════════════════════
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
@@ -10,6 +17,7 @@ class PrimaryButton extends StatefulWidget {
   final double? width;
   final double height;
   final Widget? trailingWidget;
+  final Widget? leadingWidget;
 
   const PrimaryButton({
     super.key,
@@ -17,8 +25,9 @@ class PrimaryButton extends StatefulWidget {
     required this.onPressed,
     this.isLoading = false,
     this.width,
-    this.height = 58,
+    this.height = 54,
     this.trailingWidget,
+    this.leadingWidget,
   });
 
   @override
@@ -63,15 +72,24 @@ class _PrimaryButtonState extends State<PrimaryButton>
           width: widget.width ?? double.infinity,
           height: widget.height,
           decoration: BoxDecoration(
-            gradient: AppColors.appPurpleGradient,
+            gradient: widget.isLoading
+                ? LinearGradient(
+                    colors: [
+                      AppColors.appPurpleLight.withOpacity(0.5),
+                      AppColors.appPurpleDark.withOpacity(0.5),
+                    ],
+                  )
+                : AppColors.appPurpleGradient,
             borderRadius: BorderRadius.circular(AppValues.pillRadius),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.appPurpleDark.withOpacity(0.25),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-            ],
+            boxShadow: widget.isLoading
+                ? []
+                : [
+                    BoxShadow(
+                      color: AppColors.appPurpleDark.withOpacity(0.30),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
           ),
           alignment: Alignment.center,
           child: widget.isLoading
@@ -87,17 +105,21 @@ class _PrimaryButtonState extends State<PrimaryButton>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    if (widget.leadingWidget != null) ...[
+                      widget.leadingWidget!,
+                      const SizedBox(width: 10),
+                    ],
                     Text(
                       widget.text,
                       style: GoogleFonts.outfit(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
                         letterSpacing: 0.2,
                       ),
                     ),
                     if (widget.trailingWidget != null) ...[
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       widget.trailingWidget!,
                     ],
                   ],

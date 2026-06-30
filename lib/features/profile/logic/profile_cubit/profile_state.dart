@@ -4,7 +4,7 @@ abstract class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
 
-// Get Profile
+// ── Get Profile ──────────────────────────────────────────────
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
@@ -17,7 +17,7 @@ class ProfileError extends ProfileState {
   ProfileError({required this.errMessage});
 }
 
-// Update Profile
+// ── Update Profile ───────────────────────────────────────────
 class UpdateProfileLoading extends ProfileState {
   final ProfileModel profile;
   UpdateProfileLoading({required this.profile});
@@ -34,7 +34,7 @@ class UpdateProfileFailure extends ProfileState {
   UpdateProfileFailure({required this.profile, required this.errMessage});
 }
 
-// Change Password
+// ── Change Password ──────────────────────────────────────────
 class ChangePasswordLoading extends ProfileState {}
 
 class ChangePasswordSuccess extends ProfileState {}
@@ -44,17 +44,23 @@ class ChangePasswordFailure extends ProfileState {
   ChangePasswordFailure({required this.errMessage});
 }
 
-// Change Email
+// ── Change Email ─────────────────────────────────────────────
 class ChangeEmailLoading extends ProfileState {}
 
-class ChangeEmailSuccess extends ProfileState {}
+// الـ API بعد ما تبعت الكود بترجع 200 بس من غير id
+// فاستخدمنا ChangeEmailCodeSent عشان نعرف إن الكود اتبعت
+// والـ id هنجيبه من الـ SecureStorage في confirmChangeEmail
+class ChangeEmailCodeSent extends ProfileState {
+  final String id; // ممكن يكون فاضي — الـ cubit هيـ fallback للـ storage
+  ChangeEmailCodeSent({required this.id});
+}
 
 class ChangeEmailFailure extends ProfileState {
   final String errMessage;
   ChangeEmailFailure({required this.errMessage});
 }
 
-// Confirm Change Email
+// ── Confirm Change Email ─────────────────────────────────────
 class ConfirmChangeEmailLoading extends ProfileState {}
 
 class ConfirmChangeEmailSuccess extends ProfileState {}
@@ -64,15 +70,89 @@ class ConfirmChangeEmailFailure extends ProfileState {
   ConfirmChangeEmailFailure({required this.errMessage});
 }
 
-// Avatar
+// ── Avatar ───────────────────────────────────────────────────
 class UploadAvatarLoading extends ProfileState {}
-
-class UploadAvatarSuccess extends ProfileState {
-  final String avatarUrl;
-  UploadAvatarSuccess({required this.avatarUrl});
-}
 
 class UploadAvatarFailure extends ProfileState {
   final String errMessage;
   UploadAvatarFailure({required this.errMessage});
 }
+
+// import '../../data/models/profile_model.dart';
+
+// abstract class ProfileState {}
+
+// class ProfileInitial extends ProfileState {}
+
+// // Get Profile
+// class ProfileLoading extends ProfileState {}
+
+// class ProfileLoaded extends ProfileState {
+//   final ProfileModel profile;
+//   ProfileLoaded({required this.profile});
+// }
+
+// class ProfileError extends ProfileState {
+//   final String errMessage;
+//   ProfileError({required this.errMessage});
+// }
+
+// // Update Profile
+// class UpdateProfileLoading extends ProfileState {
+//   final ProfileModel profile;
+//   UpdateProfileLoading({required this.profile});
+// }
+
+// class UpdateProfileSuccess extends ProfileState {
+//   final ProfileModel profile;
+//   UpdateProfileSuccess({required this.profile});
+// }
+
+// class UpdateProfileFailure extends ProfileState {
+//   final ProfileModel profile;
+//   final String errMessage;
+//   UpdateProfileFailure({required this.profile, required this.errMessage});
+// }
+
+// // Change Password
+// class ChangePasswordLoading extends ProfileState {}
+
+// class ChangePasswordSuccess extends ProfileState {}
+
+// class ChangePasswordFailure extends ProfileState {
+//   final String errMessage;
+//   ChangePasswordFailure({required this.errMessage});
+// }
+
+// // Change Email
+// class ChangeEmailLoading extends ProfileState {}
+
+// class ChangeEmailSuccess extends ProfileState {}
+
+// class ChangeEmailFailure extends ProfileState {
+//   final String errMessage;
+//   ChangeEmailFailure({required this.errMessage});
+// }
+
+// // Confirm Change Email
+// class ConfirmChangeEmailLoading extends ProfileState {}
+
+// class ConfirmChangeEmailSuccess extends ProfileState {}
+
+// class ConfirmChangeEmailFailure extends ProfileState {
+//   final String errMessage;
+//   ConfirmChangeEmailFailure({required this.errMessage});
+// }
+
+// // Avatar
+// class UploadAvatarLoading extends ProfileState {}
+
+// class UploadAvatarSuccess extends ProfileState {
+//   final String avatarUrl;
+//   UploadAvatarSuccess({required this.avatarUrl});
+// }
+
+// class UploadAvatarFailure extends ProfileState {
+//   final String errMessage;
+//   UploadAvatarFailure({required this.errMessage});
+// }

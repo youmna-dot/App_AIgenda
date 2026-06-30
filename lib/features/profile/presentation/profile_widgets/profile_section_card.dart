@@ -1,7 +1,6 @@
-// الكارت المشترك في edit و change password
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
+
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_values.dart';
 
@@ -29,10 +28,7 @@ class ProfileSectionCard extends StatelessWidget {
               ],
             ),
             borderRadius: BorderRadius.circular(AppValues.radiusCard),
-            border: Border.all(
-              color: AppColors.white.withOpacity(0.7),
-              width: 1.5,
-            ),
+            border: Border.all(color: AppColors.white.withOpacity(0.7), width: 1.5),
             boxShadow: [
               BoxShadow(
                 color: AppColors.primary.withOpacity(0.06),

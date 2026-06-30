@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_text_styles.dart';
 
+/// Text field بـ underline border بدل الـ outlined border
+/// بيُستخدم في شاشات الـ profile اللي بتحتاج style أخف
 class UnderlineTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
@@ -26,30 +28,21 @@ class UnderlineTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 12,
-            color: AppColors.textMuted,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        Text(label, style: AppTextStyles.profileInfoLabel),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
           readOnly: readOnly,
           validator: validator,
           textInputAction: textInputAction,
-          style: GoogleFonts.outfit(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
+          style: AppTextStyles.profileFieldValue.copyWith(
             color: readOnly ? AppColors.textSecondary : AppColors.primary,
           ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: AppTextStyles.bodySmall,
-            border: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFFE0D8F0)),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: AppColors.primary.withOpacity(0.2)),
             ),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppColors.primary.withOpacity(0.2)),
