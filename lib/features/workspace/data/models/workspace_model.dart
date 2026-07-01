@@ -8,6 +8,7 @@ class WorkspaceModel {
   final int visibility;
   final int numberOfMembers;
   final int numberOfTasks;
+  final int numberOfSpaces;
   final bool isOwnedByCurrentUser;
 
   WorkspaceModel({
@@ -18,6 +19,7 @@ class WorkspaceModel {
     required this.visibility,
     required this.numberOfMembers,
     required this.numberOfTasks,
+    required this.numberOfSpaces,
     required this.isOwnedByCurrentUser,
   });
 
@@ -30,6 +32,7 @@ class WorkspaceModel {
       visibility: json[ApiKeys.visibility] ?? 0,
       numberOfMembers: json[ApiKeys.numberOfMembers] ?? 0,
       numberOfTasks: json[ApiKeys.numberOfTasks] ?? 0,
+      numberOfSpaces: json[ApiKeys.numberOfSpaces] ?? 0,
       isOwnedByCurrentUser: json[ApiKeys.isOwnedByCurrentUser] ?? false,
     );
   }

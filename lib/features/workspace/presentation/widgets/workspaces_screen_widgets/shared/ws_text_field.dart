@@ -26,24 +26,24 @@ class WsTextField extends StatelessWidget {
       controller: controller,
       maxLines: maxLines,
       onSubmitted: onSubmitted,
-      style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textDark),
+      style: GoogleFonts.outfit(fontSize: 14, color: AppColors.textDark, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.poppins(fontSize: 13, color: AppColors.textHint),
+        hintStyle: GoogleFonts.outfit(fontSize: 13.5, color: AppColors.textHint),
         filled: true,
-        fillColor: AppColors.background,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
+        fillColor: AppColors.white,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
+          borderRadius: BorderRadius.circular(AppValues.radiusMd),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
+          borderRadius: BorderRadius.circular(AppValues.radiusMd),
           borderSide: BorderSide(color: AppColors.cardBorder),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
-          borderSide: BorderSide(color: accentColor, width: 1.5),
+          borderRadius: BorderRadius.circular(AppValues.radiusMd),
+          borderSide: BorderSide(color: accentColor, width: 1.6),
         ),
       ),
     );

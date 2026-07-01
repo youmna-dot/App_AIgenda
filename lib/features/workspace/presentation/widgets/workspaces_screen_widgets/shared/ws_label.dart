@@ -11,10 +11,11 @@ class WsLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.inter(
         fontSize: 13,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: AppColors.textDark,
+        letterSpacing: -0.1,
       ),
     );
   }

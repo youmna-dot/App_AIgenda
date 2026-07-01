@@ -85,8 +85,10 @@ class _WsListItemState extends State<WsListItem>
   late Animation<double> _scale;
   Color _color = AppColors.primary;
 
-  static const double _mockProgress = 0.84;
-  static const int _mockDueCount = 2;
+  // TODO(backend): WorkspaceModel لسه معندوش completedTasks.
+  // لحد ما الـ field تتضاف من الباك إند، الـ progress بيفضل 0
+  // (zero كـ fallback حقيقي، مش رقم وهمي).
+  static const double _progress = 0.0;
 
   @override
   void initState() {
@@ -233,7 +235,7 @@ class _WsListItemState extends State<WsListItem>
                             color: AppColors.textDark)),
                     const Spacer(),
                     Text(
-                      '${(_mockProgress * 100).toInt()}%',
+                      '${(_progress * 100).toInt()}%',
                       style: GoogleFonts.outfit(
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
@@ -248,7 +250,7 @@ class _WsListItemState extends State<WsListItem>
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: LinearProgressIndicator(
-                    value: _mockProgress,
+                    value: _progress,
                     backgroundColor: _color.withOpacity(0.12),
                     color: _color,
                     minHeight: 6,
@@ -266,15 +268,9 @@ class _WsListItemState extends State<WsListItem>
                       color: _color,
                     ),
                     const SizedBox(width: 8),
-                    if (_mockDueCount > 0)
-                      _Chip(
-                        icon: Icons.calendar_today_outlined,
-                        label: '$_mockDueCount Due',
-                        color: AppColors.accentOrange,
-                      ),
-                    const Spacer(),
-                    _MembersAvatars(
-                      count: widget.workspace.numberOfMembers,
+                    _Chip(
+                      icon: Icons.folder_outlined,
+                      label: '${widget.workspace.numberOfSpaces} Spaces',
                       color: _color,
                     ),
                   ],
@@ -428,67 +424,6 @@ class _Chip extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: color)),
-        ],
-      ),
-    );
-  }
-}
-
-class _MembersAvatars extends StatelessWidget {
-  final int count;
-  final Color color;
-  const _MembersAvatars({required this.count, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    if (count == 0) return const SizedBox.shrink();
-    final show = count > 3 ? 3 : count;
-    final extra = count - show;
-
-    return SizedBox(
-      width: show * 20.0 + (extra > 0 ? 24 : 0),
-      height: 28,
-      child: Stack(
-        children: [
-          ...List.generate(
-              show,
-              (i) => Positioned(
-                    left: i * 20.0,
-                    child: Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        color: color.withOpacity(0.15 + i * 0.1),
-                        shape: BoxShape.circle,
-                        border:
-                            Border.all(color: AppColors.white, width: 2),
-                      ),
-                      child: Center(
-                        child: Icon(Icons.person_rounded,
-                            size: 14, color: color),
-                      ),
-                    ),
-                  )),
-          if (extra > 0)
-            Positioned(
-              left: show * 20.0,
-              child: Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.white, width: 2),
-                ),
-                child: Center(
-                  child: Text('+$extra',
-                      style: GoogleFonts.outfit(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.white)),
-                ),
-              ),
-            ),
         ],
       ),
     );

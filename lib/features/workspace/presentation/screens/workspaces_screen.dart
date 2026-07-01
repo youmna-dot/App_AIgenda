@@ -173,8 +173,8 @@ class _WorkspaceBodyState extends State<_WorkspaceBody> {
 }
 
 // ══════════════════════════════════════════════════════════════
-// _WsScreenHeader — back + title/subtitle + create button
-// (matches the mockup: big bold "Workspaces" + purple pill button)
+// _WsScreenHeader — title/subtitle + create button
+// (الصفحة دي primary tab — وصول من الـ bottom nav، فمفيش زرار رجوع)
 // ══════════════════════════════════════════════════════════════
 class _WsScreenHeader extends StatelessWidget {
   final VoidCallback onCreateTap;
@@ -193,65 +193,24 @@ class _WsScreenHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Back + Title row ──────────────────────
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Back button
-              GestureDetector(
-                onTap: () => context.pop(),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius:
-                        BorderRadius.circular(AppValues.radiusSm),
-                    border: Border.all(color: AppColors.cardBorder),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.07),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: AppColors.primary,
-                    size: 16,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 14),
-
-              // Title + subtitle
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Workspaces',
-                      style: GoogleFonts.outfit(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textDark,
-                        letterSpacing: -0.5,
-                        height: 1.1,
-                      ),
-                    ),
-                    Text(
-                      'Manage your high-agency environments.',
-                      style: GoogleFonts.outfit(
-                        fontSize: 13,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          // ── Title + subtitle ──────────────────────
+          Text(
+            'Workspaces',
+            style: GoogleFonts.outfit(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textDark,
+              letterSpacing: -0.5,
+              height: 1.1,
+            ),
+          ),
+          Text(
+            'Manage your high-agency environments.',
+            style: GoogleFonts.outfit(
+              fontSize: 13,
+              color: AppColors.primary,
+              fontWeight: FontWeight.w500,
+            ),
           ),
 
           const SizedBox(height: 20),
