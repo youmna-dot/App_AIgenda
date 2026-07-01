@@ -1,3 +1,7 @@
+import 'package:ajenda_app/features/app-connections/data/data_source/app_connections_remote_data_source.dart';
+import 'package:ajenda_app/features/app-connections/data/repository/app_connections_repository_impl.dart';
+import 'package:ajenda_app/features/app-connections/domain/repositories/app_connections_repository.dart';
+import 'package:ajenda_app/features/app-connections/logic/app_connections_cubit/app_connections_cubit.dart';
 import 'package:ajenda_app/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:ajenda_app/features/profile/domain/repositories/profile_repository.dart';
 import 'package:ajenda_app/features/profile/logic/profile_cubit/profile_cubit.dart';
@@ -171,7 +175,17 @@ Future<void> setupDependencyInjection() async {
   getIt.registerFactory<NoteCubit>(
         () => NoteCubit(getIt<NoteRepository>()),
   );
+  getIt.registerLazySingleton<AppConnectionsRemoteDataSource>(
+        () => AppConnectionsRemoteDataSource(getIt<ApiService>()),
+  );
 
+  getIt.registerLazySingleton<AppConnectionsRepository>(
+        () => AppConnectionsRepositoryImpl(getIt<AppConnectionsRemoteDataSource>()),
+  );
+
+  getIt.registerFactory<AppConnectionsCubit>(
+        () => AppConnectionsCubit(getIt<AppConnectionsRepository>()),
+  );
 
 
 

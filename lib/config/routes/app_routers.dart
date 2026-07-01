@@ -1,4 +1,5 @@
 import 'package:ajenda_app/core/network/api_keys.dart';
+import 'package:ajenda_app/features/app-connections/presentation/screens/connect_apps_screen.dart';
 import 'package:ajenda_app/features/profile/logic/profile_cubit/profile_cubit.dart';
 import 'package:ajenda_app/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:ajenda_app/features/profile/presentation/screens/profile_screen.dart';
@@ -237,5 +238,9 @@ final workspaceRoutes = [
         userPermissions: List<String>.from(extra['userPermissions'] as List? ?? []),
       );
     },
+  ),
+  GoRoute(
+    path: RouteNames.connectApps,
+    builder: (_, __) => const ConnectAppsScreen(),
   ),
 ];

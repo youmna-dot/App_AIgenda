@@ -38,6 +38,8 @@ class RouteNames {
   static const String spaces      = '/spaces';
   static const String spaceDetail = spaces;
 
+  static const String connectApps = '/connect-apps';
+
   // ── Other ─────────────────────────────────────────────────
   static const String chatBot       = '/chat-bot';
   static const String notifications = '/notifications';

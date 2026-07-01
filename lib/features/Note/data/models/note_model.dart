@@ -60,12 +60,13 @@ class NoteModel {
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
     // 💡 دالة صغيرة عشان نحول الـ Enum (الأرقام) اللي راجعة من الباك إند لنص مفهوووم
+    // Backend enum: Text=0, HandDraw=1, Voice=2, Image=3
     String mapType(dynamic typeVal) {
       final t = typeVal.toString();
-      if (t == '0' || t.toLowerCase() == 'text') return 'Text';
-      if (t == '1' || t.toLowerCase() == 'voice') return 'Voice';
-      if (t == '2' || t.toLowerCase() == 'image') return 'Image';
-      if (t == '3' || t.toLowerCase() == 'handdraw') return 'HandDraw';
+      if (t == '0' || t.toLowerCase() == 'text')     return 'Text';
+      if (t == '1' || t.toLowerCase() == 'handdraw') return 'HandDraw'; // ✅ FIX: كان 'Voice'
+      if (t == '2' || t.toLowerCase() == 'voice')    return 'Voice';    // ✅ FIX: كان 'Image'
+      if (t == '3' || t.toLowerCase() == 'image')    return 'Image';    // ✅ FIX: كان 'HandDraw'
       return 'Text'; // القيمة الافتراضية
     }
 
@@ -83,9 +84,9 @@ class NoteModel {
           ? DateTime.tryParse(json[ApiKeys.updatedAt])
           : null,
 
-      // 💡 بنقرا الداتا مباشرة من الـ JSON الرئيسي (السطح) لأن الرد Flat
+      // بنقرا الداتا مباشرة من الـ JSON الرئيسي (السطح) لأن الرد Flat
       text: NoteTextContent(
-        plainText:    json['plain_text'] ?? json[ApiKeys.plainText],
+        plainText:    json[ApiKeys.plainText],
         htmlContent:  json[ApiKeys.htmlContent],
         richTextJson: json[ApiKeys.richTextJson],
       ),

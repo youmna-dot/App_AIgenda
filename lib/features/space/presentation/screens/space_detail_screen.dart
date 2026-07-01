@@ -1,16 +1,6 @@
 // lib/features/workspace/presentation/screens/space_detail_screen.dart
 
 // lib/features/space/presentation/screens/space_detail_screen.dart
-//
-// REDESIGN — مطابق للـ HTML mockup:
-//  ✅ Underline tab bar بدل pill container
-//  ✅ Tab badges بعدد Tasks / Notes
-//  ✅ List view كـ default بدل Kanban
-//  ✅ View switcher (List ↔ Board) داخل Tasks tab
-//  ✅ Unified FAB يفتح creation sheet بـ 4 خيارات
-//  ✅ Smart stats row: completion% + overdue + notes+pinned + next due
-//  ✅ Edit/Delete للـ space من الـ header
-//  ✅ NotesCubit مربوط فعلاً + noteCount/pinnedCount حقيقيين
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
