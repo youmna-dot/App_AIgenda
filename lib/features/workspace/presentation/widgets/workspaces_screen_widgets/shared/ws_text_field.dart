@@ -29,7 +29,7 @@ class WsTextField extends StatelessWidget {
       style: GoogleFonts.outfit(fontSize: 14, color: AppColors.textDark, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.outfit(fontSize: 13.5, color: AppColors.textHint),
+        hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.roleViewer.withOpacity(0.8)),
         filled: true,
         fillColor: AppColors.white,
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),

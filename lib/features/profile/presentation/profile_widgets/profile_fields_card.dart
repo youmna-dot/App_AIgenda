@@ -26,7 +26,6 @@ class ProfileFieldsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // ✅ نفس خلفية البروفايل
       decoration: BoxDecoration(
         color: AppColors.roleViewer.withOpacity(0.10),
         borderRadius: BorderRadius.circular(20),

@@ -54,7 +54,7 @@ class PermissionsBody extends StatelessWidget {
           icon: Icons.task_alt_rounded,
           color: AppColors.accentGreen,
           permissions: AppPermissions.adminPermissions
-              .where((p) => p.startsWith('tasks_widgets'))
+              .where((p) => p.startsWith('tasks'))
               .toList(),
         ),
         (

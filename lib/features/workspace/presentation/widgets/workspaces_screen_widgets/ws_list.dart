@@ -144,7 +144,7 @@ class _WsListItemState extends State<WsListItem>
         },
         child: Container(
           decoration: BoxDecoration(
-            color: _color.withOpacity(0.07),
+            color: _color.withOpacity(0.15),
             borderRadius: BorderRadius.circular(AppValues.radiusXl),
             border: Border.all(
               color: _color.withOpacity(0.18),

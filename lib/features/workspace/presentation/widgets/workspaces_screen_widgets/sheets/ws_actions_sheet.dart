@@ -108,7 +108,7 @@ class WsActionsSheet extends StatelessWidget {
           decoration: BoxDecoration(
             color: isOwner
                 ? color.withOpacity(0.12)
-                : AppColors.primary.withOpacity(0.08),
+                : const Color.fromARGB(255, 82, 55, 138).withOpacity(0.08),
             borderRadius:
             BorderRadius.circular(AppValues.paddingXs),
           ),

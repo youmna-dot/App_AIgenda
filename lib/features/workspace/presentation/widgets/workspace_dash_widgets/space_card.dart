@@ -34,7 +34,7 @@ class SpaceCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.10),
+          color: color.withOpacity(0.20),
           borderRadius: BorderRadius.circular(AppValues.radiusXl),
           border: Border.all(
             color: color.withOpacity(0.20),
@@ -52,7 +52,7 @@ class SpaceCard extends StatelessWidget {
                   width: 46,
                   height: 46,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.18),
+                    color: color.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Center(
@@ -71,7 +71,7 @@ class SpaceCard extends StatelessWidget {
                     children: [
                       Text(
                         space.name,
-                        style: GoogleFonts.outfit(
+                        style: GoogleFonts.poppins(
                           fontSize: 17,
                           fontWeight: FontWeight.w800,
                           color: AppColors.textDark,
@@ -83,8 +83,8 @@ class SpaceCard extends StatelessWidget {
                       Text(
                         '${space.totalTasks} Tasks · ${space.completedTasks} Done',
                         style: GoogleFonts.outfit(
-                          fontSize: 12,
-                          color: AppColors.textMuted,
+                          fontSize: 13,
+                          color: AppColors.roleViewer,
                         ),
                       ),
                     ],

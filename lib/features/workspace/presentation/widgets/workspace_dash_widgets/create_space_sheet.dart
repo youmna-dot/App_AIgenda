@@ -88,8 +88,8 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
             Row(
               children: [
                 Container(
-                  width: 38,
-                  height: 38,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: _accent.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(11),
@@ -108,7 +108,7 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
                     Text(
                       'Create a Space',
                       style: GoogleFonts.poppins(
-                        fontSize: 16,
+                        fontSize: 19,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textDark,
                       ),
@@ -116,8 +116,8 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
                     Text(
                       'Organize tasks_widgets & notes.',
                       style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        color: AppColors.textMuted,
+                        fontSize: 12,
+                        color: AppColors.roleViewer,
                       ),
                     ),
                   ],
@@ -160,7 +160,7 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
                             Text(
                               'CHANGE',
                               style: GoogleFonts.poppins(
-                                fontSize: 7,
+                                fontSize: 9,
                                 color: _accent,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.4,
@@ -201,7 +201,7 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
             const SizedBox(height: 6),
             SheetField(
               ctrl: _nameCtrl,
-              hint: 'e.g. Design, Development',
+              hint: ' Design, Development',
               accent: _accent,
             ),
             const SizedBox(height: 14),
@@ -230,7 +230,7 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
                     child: Container(
                       height: AppValues.buttonHeight - 8,
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: AppColors.roleViewer.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(
                           AppValues.radiusMd - 1,
                         ),
@@ -240,9 +240,9 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
                         child: Text(
                           'Cancel',
                           style: GoogleFonts.poppins(
-                            fontSize: 14,
+                            fontSize: 17,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
+                            color: AppColors.textDark,
                           ),
                         ),
                       ),
@@ -273,7 +273,7 @@ class _CreateSpaceSheetState extends State<CreateSpaceSheet> {
                         child: Text(
                           'Create Space',
                           style: GoogleFonts.poppins(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: AppColors.white,
                           ),

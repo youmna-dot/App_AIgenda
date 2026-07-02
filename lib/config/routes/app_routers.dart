@@ -213,20 +213,38 @@ final workspaceRoutes = [
     path: RouteNames.permissions,
     builder: (_, state) {
       final extra = state.extra as Map<String, dynamic>;
+      final workspaceId = extra['workspaceId'] as int;
+      final userId = extra['userId'] as String;
+      final canUserModify = extra['canUserModify'] as bool;
       return BlocProvider(
         create: (_) => getIt<PermissionsCubit>()
-          ..init(
-            List<String>.from(extra['permissions'] as List),
-            canUserModify: extra['canUserModify'] as bool,
-          ),
+          ..loadPermissions(workspaceId, userId, canUserModify: canUserModify),
         child: PermissionsScreen(
-          workspaceId: extra['workspaceId'] as int,
-          userId: extra['userId'] as String,
-          canUserModify: extra['canUserModify'] as bool,
+          workspaceId: workspaceId,
+          userId: userId,
+          canUserModify: canUserModify,
         ),
       );
     },
   ),
+  // GoRoute(
+  //   path: RouteNames.permissions,
+  //   builder: (_, state) {
+  //     final extra = state.extra as Map<String, dynamic>;
+  //     return BlocProvider(
+  //       create: (_) => getIt<PermissionsCubit>()
+  //         ..init(
+  //           List<String>.from(extra['permissions'] as List),
+  //           canUserModify: extra['canUserModify'] as bool,
+  //         ),
+  //       child: PermissionsScreen(
+  //         workspaceId: extra['workspaceId'] as int,
+  //         userId: extra['userId'] as String,
+  //         canUserModify: extra['canUserModify'] as bool,
+  //       ),
+  //     );
+  //   },
+  // ),
   GoRoute(
     path: RouteNames.spaceDetail,
     builder: (_, state) {

@@ -2,6 +2,9 @@
 
 // lib/features/space/presentation/screens/space_detail_screen.dart
 
+import 'package:ajenda_app/features/task/presentation/screens/tasks_list_view.dart';
+import 'package:ajenda_app/features/task/presentation/widgets/tasks_widgets/create_task_sheet.dart';
+import 'package:ajenda_app/features/task/presentation/widgets/tasks_widgets/kanban/kanban_board.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +20,7 @@ import '../../../Note/logic/note_cubit/note_state.dart';
 import '../../../Note/presentation/widgets/create_note_sheet.dart';
 import '../../../Note/presentation/widgets/notes_tab.dart';
 
-import '../../../task/presentation/screens/tasks_list_view.dart';
+// import '../../../task/presentation/screens/tasks_list_view.dart';
 import '../../data/models/space_model.dart';
 import '../utils/space_color_service.dart';
 import '../widgets/space_details/space_detail_header.dart';
@@ -25,8 +28,8 @@ import '../widgets/space_details/space_detail_header.dart';
 import '../../../task/logic/task_cubit/task_cubit.dart';
 import '../../../task/logic/task_cubit/task_state.dart';
 import '../../../task/logic/subtask_cubit/subtask_cubit.dart';
-import '../../../task/presentation/widgets/tasks_widgets/create_task_sheet.dart';
-import '../../../task/presentation/widgets/tasks_widgets/kanban/kanban_board.dart';
+// import '../../../task/presentation/widgets/tasks_widgets/create_task_sheet.dart';
+// import '../../../task/presentation/widgets/tasks_widgets/kanban/kanban_board.dart';
 import '../../../task/enums/task_priority.dart';
 import '../../../task/enums/task_status.dart';
 import '../../../task/data/models/task_model.dart';

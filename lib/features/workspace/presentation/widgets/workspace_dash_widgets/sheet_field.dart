@@ -30,9 +30,9 @@ class SheetField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: GoogleFonts.poppins(
-            fontSize: 13, color: AppColors.textHint),
+            fontSize: 13, color: AppColors.roleViewer),
         filled: true,
-        fillColor: AppColors.background,
+        fillColor: AppColors.roleViewer.withOpacity(0.08),
         contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppValues.radiusSm - 1),

@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_values.dart';
 
-// Action label + icon map 
 typedef _ActionMeta = ({String label, IconData icon});
 
 const Map<String, _ActionMeta> _actionMeta = {
@@ -23,11 +22,14 @@ class PermissionRow extends StatelessWidget {
   final bool isSelected;
   final bool canUserModify;
 
+  final Color? accentColor;
+
   const PermissionRow({
     super.key,
     required this.permission,
     required this.isSelected,
     required this.canUserModify,
+    this.accentColor,
   });
 
   String get _action => permission.split(':')[1];
@@ -35,6 +37,8 @@ class PermissionRow extends StatelessWidget {
   _ActionMeta get _meta =>
       _actionMeta[_action] ??
       (label: _action.toUpperCase(), icon: Icons.check_circle_outline_rounded);
+
+  Color get _color => accentColor ?? AppColors.primary;
 
   @override
   Widget build(BuildContext context) {
@@ -51,21 +55,21 @@ class PermissionRow extends StatelessWidget {
           children: [
             Icon(
               _meta.icon,
-              color: isSelected ? AppColors.primary : AppColors.textMuted,
-              size: 18,
+              color: isSelected ? _color : AppColors.textMuted,
+              size: AppValues.iconSizeMd,
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 _meta.label,
                 style: GoogleFonts.poppins(
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  color: isSelected ? AppColors.textDark : AppColors.textSecondary,
+                  color: isSelected ? AppColors.textDark : AppColors.primary,
                 ),
               ),
             ),
-            _AnimatedCheckbox(isSelected: isSelected),
+            _AnimatedCheckbox(isSelected: isSelected, color: _color),
           ],
         ),
       ),
@@ -73,11 +77,11 @@ class PermissionRow extends StatelessWidget {
   }
 }
 
-// Animated Checkbox 
 class _AnimatedCheckbox extends StatelessWidget {
   final bool isSelected;
+  final Color color;
 
-  const _AnimatedCheckbox({required this.isSelected});
+  const _AnimatedCheckbox({required this.isSelected, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +90,10 @@ class _AnimatedCheckbox extends StatelessWidget {
       width: 22,
       height: 22,
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primary : Colors.transparent,
+        color: isSelected ? color : Colors.transparent,
         borderRadius: BorderRadius.circular(AppValues.radiusXs),
         border: Border.all(
-          color: isSelected ? AppColors.primary : AppColors.cardBorder,
+          color: isSelected ? color : AppColors.cardBorder,
           width: 1.5,
         ),
       ),

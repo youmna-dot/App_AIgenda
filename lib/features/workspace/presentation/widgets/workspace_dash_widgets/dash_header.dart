@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_icons.dart';
 import '../../../../../core/constants/app_values.dart';
 
 class DashHeader extends StatelessWidget {
@@ -31,71 +32,53 @@ class DashHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // ── Back button ──────────────────────────
+          // ── Back button — نفس ستايل MemberHeader / PermissionHeader ──
           GestureDetector(
             onTap: onBack,
             child: Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.07),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                color: AppColors.primary.withOpacity(0.2),
+                shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.arrow_back_ios_new_rounded,
+                AppIcons.back,
                 color: AppColors.primary,
-                size: 16,
+                size: 20,
               ),
             ),
           ),
-          const SizedBox(width: 14),
 
           // ── Workspace name (centered) ────────────
           Expanded(
             child: Text(
               workspaceName,
               textAlign: TextAlign.center,
-              style: GoogleFonts.outfit(
+              style: GoogleFonts.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: AppColors.primary,
+                color: AppColors.textDark,
                 letterSpacing: -0.3,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(width: 14),
 
-          // ── More (3 dots) ────────────────────────
+          // ── More (3 dots) — نفس ستايل الدائرة ────
           GestureDetector(
             onTap: onMoreTap,
             child: Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.07),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                color: AppColors.primary.withOpacity(0.2),
+                shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.more_vert_rounded,
-                color: AppColors.textMuted,
+                color: AppColors.primary,
                 size: 20,
               ),
             ),

@@ -33,13 +33,13 @@ class PermissionGroupCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppValues.radiusLg),
+        borderRadius: BorderRadius.circular(AppValues.radiusXl),
         border: Border.all(color: AppColors.cardBorder),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: color.withOpacity(0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -52,13 +52,13 @@ class PermissionGroupCard extends StatelessWidget {
             selectedCount: _selectedCount,
             totalCount: permissions.length,
           ),
-         
-          const Divider(height: 1, color: Color(0xFFF5F3FF)),
+          Divider(height: 1, color: AppColors.cardBorder),
           ...permissions.map(
             (permission) => PermissionRow(
               permission: permission,
               isSelected: selectedPermissions.contains(permission),
               canUserModify: canUserModify,
+              accentColor: color,
             ),
           ),
         ],
@@ -67,7 +67,7 @@ class PermissionGroupCard extends StatelessWidget {
   }
 }
 
-// Group Header 
+// Group Header
 class _GroupHeader extends StatelessWidget {
   final String name;
   final IconData icon;
@@ -90,22 +90,32 @@ class _GroupHeader extends StatelessWidget {
       child: Row(
         children: [
           _GroupIconContainer(icon: icon, color: color),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
           Text(
             name,
             style: GoogleFonts.poppins(
-              fontSize: 15,
+              fontSize: 17,
               fontWeight: FontWeight.w700,
               color: AppColors.textDark,
             ),
           ),
           const Spacer(),
-          Text(
-            '$selectedCount/$totalCount',
-            style: GoogleFonts.poppins(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textMuted,
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppValues.paddingXs,
+              vertical: 3,
+            ),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(AppValues.radiusXs),
+            ),
+            child: Text(
+              '$selectedCount/$totalCount',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: color,
+              ),
             ),
           ),
         ],
@@ -114,7 +124,7 @@ class _GroupHeader extends StatelessWidget {
   }
 }
 
-// Group Icon Container 
+// Group Icon Container — نفس نمط avatar بتاع MemberCard (gradient container 16 radius)
 class _GroupIconContainer extends StatelessWidget {
   final IconData icon;
   final Color color;
@@ -124,13 +134,20 @@ class _GroupIconContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 36,
-      height: 36,
+      width: AppValues.memberAvatarSize,
+      height: AppValues.memberAvatarSize,
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.20),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      child: Icon(icon, color: color, size: 18),
+      child: Icon(icon, color: color, size: AppValues.iconSizeMd),
     );
   }
 }

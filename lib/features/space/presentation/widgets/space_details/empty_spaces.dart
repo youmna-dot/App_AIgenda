@@ -46,7 +46,7 @@ class EmptySpaces extends StatelessWidget {
             'Create your first space to organize\nyour tasks_widgets and notes.',
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-                fontSize: 13.5, color: AppColors.textMuted, height: 1.6),
+                fontSize: 13.5, color: AppColors.primary, height: 1.6),
           ),
           const SizedBox(height: 28),
           if (onCreateTap != null)
@@ -56,11 +56,13 @@ class EmptySpaces extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
                 decoration: BoxDecoration(
-                  gradient: AppColors.primaryGradient,
+                  // ✅ نفس الـ gradient المستخدم في زرار "Create workspace"
+                  // بشاشة الـ Workspaces (WsScreenHeader / WsFab)
+                  gradient: AppColors.appPurpleGradient,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
-                        color: AppColors.primary.withOpacity(0.35),
+                        color: AppColors.appPurpleDark.withOpacity(0.35),
                         blurRadius: 16,
                         offset: const Offset(0, 6))
                   ],

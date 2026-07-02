@@ -10,7 +10,11 @@ class PermissionsCubit extends Cubit<PermissionsState> {
 
   PermissionsCubit(this.repository) : super(PermissionsInitial());
 
-  Future<void> loadPermissions(int workspaceId, String memberUserId) async {
+Future<void> loadPermissions(
+    int workspaceId,
+    String memberUserId, {
+    bool canUserModify = true,
+  }) async {
     try {
       emit(PermissionsLoading());
       final permissions = await repository.getMemberPermissions(
@@ -18,11 +22,28 @@ class PermissionsCubit extends Cubit<PermissionsState> {
         memberUserId,
       );
       final role = _detectRole(permissions);
-      emit(PermissionsLoaded(selectedPermissions: permissions, role: role));
+      emit(PermissionsLoaded(
+        selectedPermissions: permissions,
+        role: role,
+        canUserModify: canUserModify,
+      ));
     } catch (e) {
       emit(PermissionsError(e.toString()));
     }
   }
+  // Future<void> loadPermissions(int workspaceId, String memberUserId) async {
+  //   try {
+  //     emit(PermissionsLoading());
+  //     final permissions = await repository.getMemberPermissions(
+  //       workspaceId,
+  //       memberUserId,
+  //     );
+  //     final role = _detectRole(permissions);
+  //     emit(PermissionsLoaded(selectedPermissions: permissions, role: role));
+  //   } catch (e) {
+  //     emit(PermissionsError(e.toString()));
+  //   }
+  // }
 
   void changeRole(WorkspaceRole role) {
     final permissions = RolePermissionsMapper.map(role);

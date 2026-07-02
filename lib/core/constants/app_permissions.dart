@@ -11,11 +11,11 @@ class AppPermissions {
   static const spacesUpdate = "spaces:update";
   static const spacesDelete = "spaces:delete";
 
-  // Tasks
-  static const tasksAdd = "tasks_widgets:add";
-  static const tasksRead = "tasks_widgets:read";
-  static const tasksUpdate = "tasks_widgets:update";
-  static const tasksDelete = "tasks_widgets:delete";
+  // Tasks — [FIX] كانت "tasks_widgets:" والباك إند بيستخدم "tasks:"
+  static const tasksAdd = "tasks:add";
+  static const tasksRead = "tasks:read";
+  static const tasksUpdate = "tasks:update";
+  static const tasksDelete = "tasks:delete";
 
   // Notes
   static const notesAdd = "notes:add";
@@ -23,29 +23,21 @@ class AppPermissions {
   static const notesUpdate = "notes:update";
   static const notesDelete = "notes:delete";
 
-
-
-  // ── Admin permissions ─────────────────────────
-  // workspace-level (delete/update) حق الـ owner بس —
-  // الـ admin member يتحكم في المحتوى بس مش الـ workspace نفسه
   static const adminPermissions = [
     spacesAdd,    spacesUpdate,    spacesDelete,
     tasksAdd,     tasksUpdate,     tasksDelete,
     notesAdd,     notesUpdate,     notesDelete,
   ];
 
-  // ── Editor permissions ────────────────────────
   static const editorPermissions = [
     spacesAdd,
     tasksAdd,    tasksUpdate,
     notesAdd,    notesUpdate,
   ];
 
-  // ── كل الـ permissions (للـ PermissionsScreen groups) ──
   static const all = [
     spacesAdd,    spacesRead,    spacesUpdate,    spacesDelete,
     tasksAdd,     tasksRead,     tasksUpdate,     tasksDelete,
     notesAdd,     notesRead,     notesUpdate,     notesDelete,
   ];
-
 }

@@ -47,8 +47,7 @@ class WsFab extends StatelessWidget {
 }
 
 class WsEmptyView extends StatelessWidget {
-  final VoidCallback onCreateTap;
-  const WsEmptyView({super.key, required this.onCreateTap});
+  const WsEmptyView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,25 +85,6 @@ class WsEmptyView extends StatelessWidget {
                 fontSize: 13,
                 color: AppColors.textMuted,
                 height: 1.6,
-              ),
-            ),
-            const SizedBox(height: 24),
-            GestureDetector(
-              onTap: onCreateTap,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                decoration: BoxDecoration(
-                  gradient: AppColors.primaryGradient,
-                  borderRadius: BorderRadius.circular(AppValues.radiusMd),
-                ),
-                child: Text(
-                  'Create Workspace',
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.white,
-                  ),
-                ),
               ),
             ),
           ],

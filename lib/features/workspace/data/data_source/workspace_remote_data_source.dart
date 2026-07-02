@@ -89,7 +89,9 @@ class WorkspaceRemoteDataSource {
   Future<void> addMember(int id, String email, {required List<String> permissions}) async {
     await apiService.post(
       ApiEndpoints.addMember(id),
-      data: {ApiKeys.email: email},
+      data: {
+        ApiKeys.email: email,
+        ApiKeys.permissions: permissions,},
     );
   }
 

@@ -89,7 +89,7 @@ class _InviteSheetState extends State<InviteSheet> {
           Text(
             'Member Role',
             style: GoogleFonts.poppins(
-              fontSize: 13,
+              fontSize: 15,
               fontWeight: FontWeight.w600,
               color: AppColors.wsHeading,
             ),
@@ -134,11 +134,11 @@ class _SheetTitle extends StatelessWidget {
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            gradient: AppColors.primaryGradient,
+            gradient: AppColors.appPurpleGradient,
             borderRadius: BorderRadius.circular(13),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.35),
+                color: AppColors.appPurpleDark.withOpacity(0.30),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -161,7 +161,7 @@ class _SheetTitle extends StatelessWidget {
             ),
             Text(
               "They'll receive an email invite.",
-              style: GoogleFonts.poppins(fontSize: 11.5, color: AppColors.textMuted),
+              style: GoogleFonts.poppins(fontSize: 11.5, color: AppColors.primary),
             ),
           ],
         ),
@@ -189,7 +189,7 @@ class _EmailField extends StatelessWidget {
         Text(
           'Email Address',
           style: GoogleFonts.poppins(
-            fontSize: 13,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
             color: AppColors.wsHeading,
           ),
@@ -215,7 +215,7 @@ class _EmailField extends StatelessWidget {
               hintStyle: GoogleFonts.poppins(fontSize: 13, color: AppColors.textHint),
               prefixIcon: Icon(
                 Icons.email_outlined,
-                color: AppColors.primary.withOpacity(0.6),
+                color: AppColors.primary,
                 size: AppValues.iconSizeMd,
               ),
               border: InputBorder.none,
@@ -266,15 +266,15 @@ class _SubmitButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: isLoading
               ? const LinearGradient(colors: [AppColors.grey, AppColors.grey])
-              : AppColors.primaryGradient,
-          borderRadius: BorderRadius.circular(15),
+              : AppColors.appPurpleGradient,
+          borderRadius: BorderRadius.circular(AppValues.pillRadius),
           boxShadow: isLoading
               ? []
               : [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.4),
+              color: AppColors.appPurpleDark.withOpacity(0.30),
               blurRadius: 18,
-              offset: const Offset(0, 6),
+              offset: const Offset(0, 7),
             ),
           ],
         ),
@@ -292,7 +292,7 @@ class _SubmitButton extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 'Send Invitation',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.outfit(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: AppColors.white,

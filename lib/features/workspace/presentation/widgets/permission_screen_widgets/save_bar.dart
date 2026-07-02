@@ -36,7 +36,7 @@ class SaveBar extends StatelessWidget {
         border: Border(top: BorderSide(color: AppColors.cardBorder)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.06),
+            color: AppColors.appPurpleDark.withOpacity(0.06),
             blurRadius: 12,
             offset: const Offset(0, -4),
           ),
@@ -51,15 +51,15 @@ class SaveBar extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: _isDisabled
                 ? const LinearGradient(colors: [AppColors.grey, AppColors.grey])
-                : AppColors.primaryGradient,
-            borderRadius: BorderRadius.circular(AppValues.radiusMd),
+                : AppColors.appPurpleGradient,
+            borderRadius: BorderRadius.circular(AppValues.pillRadius),
             boxShadow: _isDisabled
                 ? []
                 : [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.35),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
+                color: AppColors.appPurpleDark.withOpacity(0.30),
+                blurRadius: 18,
+                offset: const Offset(0, 7),
               ),
             ],
           ),
@@ -75,7 +75,7 @@ class SaveBar extends StatelessWidget {
             )
                 : Text(
               'Update Permissions',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.outfit(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: AppColors.white,

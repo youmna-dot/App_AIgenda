@@ -85,9 +85,9 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
     if (newId != null) {
       await WsColorService.save(newId, _accent);
       // TODO: Add members after creating workspace
-      // for (final member in _members) {
-      //   await cubit.addMember(newId, member.email, permissions: member.role);
-      // }
+      for (final member in _members) {
+        await cubit.addMember(newId, member.email, permissions: member.permissions);
+      }
     }
 
     if (mounted) {
@@ -151,7 +151,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
             const SizedBox(height: 18),
             const WsLabel('Workspace Name'),
             const SizedBox(height: 7),
-            WsTextField(controller: _nameCtrl, hint: 'e.g. Marketing Team', accentColor: _accent),
+            WsTextField(controller: _nameCtrl, hint: ' Marketing Team', accentColor: _accent),
             const SizedBox(height: 16),
             const WsLabel('Description (Optional)'),
             const SizedBox(height: 7),
@@ -186,21 +186,21 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
         Text(
           'Create New Workspace',
           textAlign: TextAlign.center,
-          style: GoogleFonts.outfit(
+          style: GoogleFonts.inter(
             fontSize: 22,
             fontWeight: FontWeight.w800,
             color: AppColors.textDark,
             letterSpacing: -0.3,
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 3),
         Text(
           'Set up a space for your team.',
           textAlign: TextAlign.center,
-          style: GoogleFonts.outfit(
+          style: GoogleFonts.inter(
             fontSize: 13,
             fontWeight: FontWeight.w400,
-            color: AppColors.textMuted,
+            color: AppColors.roleViewer,
           ),
         ),
       ],
@@ -212,7 +212,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: AppColors.roleViewer.withOpacity(0.10),
         borderRadius: BorderRadius.circular(AppValues.radiusXl),
         border: Border.all(color: AppColors.cardBorder),
       ),
@@ -237,12 +237,12 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(_emoji, style: const TextStyle(fontSize: 28)),
+                      Text(_emoji, style: const TextStyle(fontSize: 33)),
                       const SizedBox(height: 2),
                       Text(
                         'CHANGE',
-                        style: GoogleFonts.outfit(
-                          fontSize: 7.5,
+                        style: GoogleFonts.inter(
+                          fontSize: 8.5,
                           color: _accent,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.5,
@@ -286,7 +286,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: AppColors.roleViewer.withOpacity(0.10),
         borderRadius: BorderRadius.circular(AppValues.radiusXl),
         border: Border.all(color: AppColors.cardBorder),
       ),
@@ -303,7 +303,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
           const SizedBox(height: 5),
           Text(
             'Tap "Add" to choose a role for each member.',
-            style: GoogleFonts.outfit(fontSize: 11.5, color: AppColors.textMuted),
+            style: GoogleFonts.outfit(fontSize: 11.5, color: AppColors.roleViewer),
           ),
           const SizedBox(height: 10),
           Row(
@@ -337,7 +337,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
                     child: Text(
                       'Add',
                       style: GoogleFonts.outfit(
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
                       ),
@@ -376,7 +376,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
             child: Container(
               height: 52,
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: AppColors.roleViewer.withOpacity(0.10),
                 borderRadius: BorderRadius.circular(AppValues.pillRadius),
                 border: Border.all(color: AppColors.cardBorder),
               ),
@@ -386,7 +386,7 @@ class _WsCreateSheetState extends State<WsCreateSheet> {
                   style: GoogleFonts.outfit(
                     fontSize: 14.5,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: AppColors.textDark,
                   ),
                 ),
               ),

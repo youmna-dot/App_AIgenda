@@ -95,7 +95,7 @@ class _WsEditSheetState extends State<WsEditSheet> {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          ok ? 'Workspace updated!' : 'Failed to update.',
+          ok ? 'Workspace updated' : 'Failed to update.',
           style: GoogleFonts.poppins(fontSize: 13, color: AppColors.white),
         ),
         backgroundColor: ok ? AppColors.success : AppColors.error,
@@ -116,7 +116,7 @@ class _WsEditSheetState extends State<WsEditSheet> {
       builder: (_) => IconPicker(
         icons: AppIcons.workspace,
         selectedCode: _emojiCode,
-        accentColor: _accent,        // ← Color مباشرة بدل accentId
+        accentColor: _accent,        
         onSelected: (icon) => setState(() {
           _emoji = icon.display;
           _emojiCode = icon.code;
@@ -181,8 +181,8 @@ class _WsEditSheetState extends State<WsEditSheet> {
     return Row(
       children: [
         Container(
-          width: 38,
-          height: 38,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
             color: AppColors.gradientBlue.withOpacity(0.1),
             borderRadius: BorderRadius.circular(11),
@@ -234,7 +234,7 @@ class _WsEditSheetState extends State<WsEditSheet> {
                     Text(
                       'CHANGE',
                       style: GoogleFonts.poppins(
-                        fontSize: 7,
+                        fontSize: 8.5,
                         color: _accent,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.4,
@@ -281,7 +281,7 @@ class _WsEditSheetState extends State<WsEditSheet> {
             child: Container(
               height: 48,
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: AppColors.roleViewer.withOpacity(0.10),
                 borderRadius:
                 BorderRadius.circular(AppValues.radiusSm + 1),
                 border:
@@ -291,9 +291,9 @@ class _WsEditSheetState extends State<WsEditSheet> {
                 child: Text(
                   'Cancel',
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: AppColors.textDark,
                   ),
                 ),
               ),
@@ -335,7 +335,7 @@ class _WsEditSheetState extends State<WsEditSheet> {
                     : Text(
                   'Save Changes',
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: AppColors.white,
                   ),

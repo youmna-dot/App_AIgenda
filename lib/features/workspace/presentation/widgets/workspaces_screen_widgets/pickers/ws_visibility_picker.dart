@@ -37,7 +37,7 @@ class WsVisibilityPicker extends StatelessWidget {
                 duration: AppValues.animFast,
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
                 decoration: BoxDecoration(
-                  color: isSelected ? accent.withValues(alpha: 0.07) : AppColors.background,
+                  color: isSelected ? accent.withValues(alpha: 0.07) : AppColors.roleViewer.withOpacity(0.10),
                   borderRadius: BorderRadius.circular(AppValues.radiusSm + 1),
                   border: Border.all(
                     color: isSelected ? accent : AppColors.cardBorder,
@@ -50,7 +50,7 @@ class WsVisibilityPicker extends StatelessWidget {
                     const SizedBox(height: 6),
                     Icon(
                       _opts[i].$1,
-                      color: isSelected ? accent : AppColors.textMuted,
+                      color: isSelected ? accent : AppColors.textDark,
                       size: 17,
                     ),
                     const SizedBox(height: 4),
@@ -66,8 +66,8 @@ class WsVisibilityPicker extends StatelessWidget {
                     Text(
                       _opts[i].$3,
                       style: GoogleFonts.poppins(
-                        fontSize: 8.5,
-                        color: AppColors.textMuted,
+                        fontSize: 9.5,
+                        color: AppColors.roleViewer,
                         height: 1.3,
                       ),
                       textAlign: TextAlign.center,
@@ -97,7 +97,7 @@ class _RadioDot extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: isSelected ? accent : AppColors.textHint,
+          color: isSelected ? accent : AppColors.textPrimary,
           width: 2,
         ),
       ),

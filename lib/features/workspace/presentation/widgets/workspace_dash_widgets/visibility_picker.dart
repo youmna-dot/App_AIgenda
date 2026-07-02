@@ -40,7 +40,7 @@ class SpaceVisibilityPicker extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? accent.withValues(alpha: 0.07)
-                      : AppColors.background,
+                      : AppColors.roleViewer.withOpacity(0.08),
                   borderRadius:
                       BorderRadius.circular(AppValues.radiusMd - 1),
                   border: Border.all(
@@ -79,15 +79,15 @@ class SpaceVisibilityPicker extends StatelessWidget {
                         children: [
                           Text(opts[i].$2,
                               style: GoogleFonts.poppins(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: isSelected
                                       ? accent
                                       : AppColors.textDark)),
                           Text(opts[i].$3,
                               style: GoogleFonts.poppins(
-                                  fontSize: 9,
-                                  color: AppColors.textMuted),
+                                  fontSize: 10,
+                                  color: AppColors.roleViewer),
                               overflow: TextOverflow.ellipsis),
                         ],
                       ),

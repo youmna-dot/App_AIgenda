@@ -49,7 +49,7 @@ class WsRolePickerSheet extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'Choose the permission level for this member.',
-            style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textMuted),
+            style: GoogleFonts.poppins(fontSize: 12, color: AppColors.roleViewer),
           ),
           const SizedBox(height: 20),
           ..._roles.map(
@@ -86,7 +86,7 @@ class WsRolePickerSheet extends StatelessWidget {
                             r.$4,
                             style: GoogleFonts.poppins(
                               fontSize: 11.5,
-                              color: AppColors.textMuted,
+                              color: AppColors.roleViewer,
                             ),
                           ),
                         ],
@@ -95,7 +95,7 @@ class WsRolePickerSheet extends StatelessWidget {
                     Icon(
                       Icons.chevron_right_rounded,
                       color: AppColors.textMuted.withOpacity(0.5),
-                      size: 18,
+                      size: 30,
                     ),
                   ],
                 ),

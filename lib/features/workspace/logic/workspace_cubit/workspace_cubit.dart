@@ -62,6 +62,7 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
       return null;
     }
   }
+  
 
   // ── EDIT ──────────────────────────────────────────────────
   // [FIX] isOwner اتحذف — الـ backend بيتحقق من الصلاحية
@@ -147,7 +148,19 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
       return false;
     }
   }
-
+ // ── ADD MEMBER (بعد إنشاء الـ workspace من create sheet) ──
+  Future<bool> addMember(
+    int workspaceId,
+    String email, {
+    required List<String> permissions,
+  }) async {
+    try {
+      await repository.addMember(workspaceId, email, permissions: permissions);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   String _handleError(dynamic error) => error.toString();
 }

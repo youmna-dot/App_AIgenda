@@ -88,12 +88,11 @@ class _WorkspaceBodyState extends State<_WorkspaceBody> {
                       child: _WsScreenHeader(
                     onCreateTap: () => _openCreateSheet(ctx),
                   )),
-                  SliverFillRemaining(
+                  const SliverFillRemaining(
                     hasScrollBody: false,
-                    child: WsEmptyView(
-                      onCreateTap: () => _openCreateSheet(ctx),
+                    child: WsEmptyView()
                     ),
-                  ),
+                  
                 ],
               );
             }
@@ -172,10 +171,6 @@ class _WorkspaceBodyState extends State<_WorkspaceBody> {
   }
 }
 
-// ══════════════════════════════════════════════════════════════
-// _WsScreenHeader — title/subtitle + create button
-// (الصفحة دي primary tab — وصول من الـ bottom nav، فمفيش زرار رجوع)
-// ══════════════════════════════════════════════════════════════
 class _WsScreenHeader extends StatelessWidget {
   final VoidCallback onCreateTap;
 
