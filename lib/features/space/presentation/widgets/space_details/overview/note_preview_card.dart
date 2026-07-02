@@ -28,10 +28,10 @@ class NotePreviewCard extends StatefulWidget {
 class _NotePreviewCardState extends State<NotePreviewCard> {
   late Color _noteColor;
 
-  // ارتفاع ثابت لمنطقة الوصف (بيساوي تقريبًا سطرين نص بحجم 12.5 و line-height 1.4).
-  // ده اللي بيخلي كل الكاردز نفس الطول بالظبط سواء فيها وصف طويل أو مفيهاش وصف خالص.
-  // لو عاوزة تكبري/تصغري المساحة دي، غيري الرقم ده بس.
-  static const double _descriptionSlotHeight = 35;
+  // ✅ ارتفاع ثابت لكل الكارد (مش بس للوصف) — العنوان + السطرين + الـ padding.
+  // ده اللي بيضمن إن كل كاردز النوت تطلع بنفس الطول بالظبط أيًا كان طول
+  // العنوان أو الوصف. لو عايزة تكبري/تصغري الكارد، غيري الرقم ده بس.
+  static const double _cardHeight = 100;
 
   @override
   void initState() {
@@ -58,11 +58,11 @@ class _NotePreviewCardState extends State<NotePreviewCard> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
+        height: _cardHeight, // ← الفيكس: ارتفاع صريح لكل الكارد
+        width: double.infinity,
         margin: const EdgeInsets.only(bottom: AppValues.paddingSm),
         padding: const EdgeInsets.all(AppValues.paddingMd),
         decoration: BoxDecoration(
-          // نفس تدريجة الألوان القديمة (diagonal 0.18 → 0.06)
-          // بس دلوقتي بلون النوت المختار مش لون التاسك بس
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -76,6 +76,7 @@ class _NotePreviewCardState extends State<NotePreviewCard> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               note.title,
@@ -88,10 +89,9 @@ class _NotePreviewCardState extends State<NotePreviewCard> {
               ),
             ),
             const SizedBox(height: 6),
-            // مساحة ثابتة دايمًا (سطرين) — سواء فيها نص أو فاضية،
-            // عشان كل الكاردز تطلع بنفس الطول بالظبط.
-            SizedBox(
-              height: _descriptionSlotHeight,
+            // ✅ Expanded بدل SizedBox بارتفاع تقريبي — بياخد باقي المساحة
+            // المتاحة جوه الكارد المُثبّت، فمفيش أي احتمال يفيض أو يقصر.
+            Expanded(
               child: Text(
                 note.previewText,
                 maxLines: 2,

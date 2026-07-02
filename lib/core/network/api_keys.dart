@@ -113,6 +113,11 @@ class ApiKeys {
   static const String createdAt       = 'createdAt';   // ✅ response
   static const String updatedAt       = 'updatedAt';   // ✅ response
 
+  // ⚠️ TODO: لسه مش مؤكد اسم الـ field اللي هترجع بيه بيانات الـ assets
+  // (روابط الملفات) في الـ response بعد الحفظ — الـ swagger مش موثق الـ
+  // response schema. لما تتأكدي من شكل الـ response الحقيقي حدّثي المفتاح ده.
+  static const String noteAssetsResponse = 'assets'; // ⚠️ تخمين مبدئي
+
   // ── Note Form Request keys (PascalCase — للـ createNote/updateNote) ──
   static const String noteTitle           = 'Title';
   static const String noteType            = 'Type';
@@ -125,6 +130,17 @@ class ApiKeys {
   static const String noteImageCaption    = 'Image.Caption';
   static const String noteDrawJson        = 'HandDraw.DrawingJson';
   static const String noteDrawText        = 'HandDraw.ExtractedText';
+
+  // ── Note Assets — multipart file upload ──────────────────────
+  // مبنية على AssetPayload في الـ swagger:
+  //   Assets[i].AssetType (int, 0 أو 1 — enum غير مسمّى في الـ swagger)
+  //   Assets[i].File (binary)
+  //   Assets[i].DurationSeconds (int, nullable — للصوت بس)
+  // بيتبنوا ديناميكيًا بالـ index جوه NoteRemoteDataSource.
+  static const String noteAssets         = 'Assets';
+  static const String noteAssetType      = 'AssetType';
+  static const String noteAssetFile      = 'File';
+  static const String noteAssetDuration  = 'DurationSeconds';
 
   // filter
   static const String pageNumber = 'PageNumber';
@@ -173,7 +189,6 @@ class ApiKeys {
   static const String callbackErrorDescription = 'error_description';
 
 }
-
 /*
 { // get all
 {

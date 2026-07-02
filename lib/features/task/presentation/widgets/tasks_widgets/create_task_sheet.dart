@@ -3,6 +3,12 @@
 // FIX 8: onCreated كان ValueChanged<TaskModel>
 //         دلوقتي typed callback: (title, description, priority, dueDate)
 //         الـ TaskModel بيتبني في الكيوبيت مش في الـ sheet
+//
+// FIX 9: Priority selector كان بيلف على TaskPriority.values كلهم (5 قيم:
+//        none, low, medium, high, critical)، بس شرط الـ label كان بيغطي
+//        3 حالات بس فـ "none" و "critical" كانوا بيطلعوا "High" برضه —
+//        ده اللي كان بيسبب تكرار كلمة High. دلوقتي بنلف على الـ 3
+//        المطلوبين بس (low, medium, high) صراحةً.
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +24,6 @@ class CreateTaskSheet extends StatefulWidget {
   final Color accentColor;
   final TaskStatus initialStatus;
 
-  // [FIX] بدل ValueChanged<TaskModel> — الـ screen هي اللي بتبني الـ model وتبعته للكيوبيت
   final void Function(
       String title,
       String description,
@@ -48,6 +53,14 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
   TaskPriority _priority = TaskPriority.medium;
   DateTime? _dueDate;
   final List<String> _subtasks = [];
+
+  // FIX 9: الأولويات المعروضة فى الـ selector — 3 بس، صراحةً،
+  // بدل ما نلف على TaskPriority.values كله (اللي فيه none و critical كمان).
+  static const List<TaskPriority> _selectablePriorities = [
+    TaskPriority.low,
+    TaskPriority.medium,
+    TaskPriority.high,
+  ];
 
   Color get _accent => widget.accentColor;
 
@@ -83,7 +96,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
       _descCtrl.text.trim(),
       _priority,
       _dueDate,
-      List.from(_subtasks), // ✅
+      List.from(_subtasks), 
     );
     Navigator.pop(context);
   }
@@ -148,7 +161,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
                 const SizedBox(width: AppValues.paddingSm - 1),
                 Text('Create Task',
                     style: GoogleFonts.poppins(
-                        fontSize: 16,
+                        fontSize: 19,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textDark)),
               ],
@@ -158,7 +171,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
             const SizedBox(height: AppValues.paddingLg - 4),
 
             // Task Title
-            _Label('Task Title *'),
+            _Label('Task Title '),
             const SizedBox(height: AppValues.paddingXs - 2),
             _Field(
                 ctrl: _titleCtrl,
@@ -182,13 +195,14 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
             Container(
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: AppColors.roleViewer.withOpacity(0.10),
                 borderRadius:
                 BorderRadius.circular(AppValues.radiusSm),
                 border: Border.all(color: AppColors.cardBorder),
               ),
               child: Row(
-                children: TaskPriority.values.map((p) {
+                // FIX 9: بنلف على الـ 3 المسموحين بس بدل TaskPriority.values
+                children: _selectablePriorities.map((p) {
                   final isSelected = _priority == p;
                   final label = p == TaskPriority.low
                       ? 'Low'
@@ -240,7 +254,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
               child: Container(
                 height: 46,
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  color: AppColors.roleViewer.withOpacity(0.10),
                   borderRadius:
                   BorderRadius.circular(AppValues.radiusSm),
                   border: Border.all(
@@ -294,7 +308,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
                 Text('${_subtasks.length} added',
                     style: GoogleFonts.poppins(
                         fontSize: 11,
-                        color: AppColors.textMuted)),
+                        color: AppColors.primary)),
               ],
             ),
             const SizedBox(height: AppValues.paddingXs),
@@ -389,7 +403,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
                     child: Container(
                       height: AppValues.buttonHeight - 8,
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: AppColors.roleViewer.withOpacity(0.10),
                         borderRadius: BorderRadius.circular(
                             AppValues.radiusMd - 1),
                         border: Border.all(
@@ -398,7 +412,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
                       child: Center(
                         child: Text('Cancel',
                             style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.textSecondary)),
                       ),
@@ -427,7 +441,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
                       child: Center(
                         child: Text('Create Task',
                             style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.white)),
                       ),
@@ -449,7 +463,7 @@ class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(text,
       style: GoogleFonts.poppins(
-          fontSize: 13,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
           color: AppColors.textDark));
 }
@@ -479,9 +493,9 @@ class _Field extends StatelessWidget {
     decoration: InputDecoration(
       hintText: hint,
       hintStyle: GoogleFonts.poppins(
-          fontSize: 13, color: AppColors.textHint),
+          fontSize: 13, color: AppColors.roleViewer),
       filled: true,
-      fillColor: AppColors.background,
+      fillColor: AppColors.roleViewer.withOpacity(0.10),
       contentPadding: const EdgeInsets.symmetric(
           horizontal: 13, vertical: 12),
       border: OutlineInputBorder(

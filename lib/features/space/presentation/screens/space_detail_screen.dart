@@ -677,6 +677,8 @@ class _SimpleHeader extends StatelessWidget {
 
 // ─────────────────────────────────────────────────────────────
 // Unified Creation Sheet — FAB → Task / Note options
+// ✅ عدّلنا الشيت بحيث تبقى كارت واحدة للـ Task وكارت واحدة للـ Note
+//    (اختيار نوع النوت Text/Voice/Draw بقى جوه شاشة إنشاء النوت نفسها)
 // ─────────────────────────────────────────────────────────────
 class _CreationSheet extends StatelessWidget {
   final Color accentColor;
@@ -698,9 +700,9 @@ class _CreationSheet extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 32),
+      padding: const EdgeInsets.fromLTRB(18, 10, 18, 32),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -717,7 +719,7 @@ class _CreationSheet extends StatelessWidget {
           Text(
             'Create in this space',
             style: GoogleFonts.poppins(
-                fontSize: 13,
+                fontSize: 19,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textDark),
           ),
@@ -726,37 +728,25 @@ class _CreationSheet extends StatelessWidget {
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            childAspectRatio: 2.2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 1.55,
             children: [
               _SheetOption(
-                emoji: '✅',
+                icon: Icons.task_alt_rounded,
                 label: 'New Task',
                 desc: 'Add to this space',
+                tint: accentColor,
                 enabled: canCreateTask,
                 onTap: onTask,
               ),
               _SheetOption(
-                emoji: '📝',
-                label: 'Text Note',
-                desc: 'Write anything',
+                icon: Icons.notes_rounded,
+                label: 'New Note',
+                desc: 'Text, voice or draw',
+                tint: const Color.fromARGB(255, 24, 109, 165),
                 enabled: canCreateNote,
                 onTap: () => onNote('Text'),
-              ),
-              _SheetOption(
-                emoji: '🎙️',
-                label: 'Voice Note',
-                desc: 'Record audio',
-                enabled: canCreateNote,
-                onTap: () => onNote('Voice'),
-              ),
-              _SheetOption(
-                emoji: '✏️',
-                label: 'Draw Note',
-                desc: 'Sketch ideas',
-                enabled: canCreateNote,
-                onTap: () => onNote('HandDraw'),
               ),
             ],
           ),
@@ -768,9 +758,9 @@ class _CreationSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text('Cancel',
                     style: GoogleFonts.poppins(
-                        fontSize: 12,
+                        fontSize: 17,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textMuted)),
+                        color: AppColors.textDark)),
               ),
             ),
           ),
@@ -781,16 +771,18 @@ class _CreationSheet extends StatelessWidget {
 }
 
 class _SheetOption extends StatelessWidget {
-  final String emoji;
+  final IconData icon;
   final String label;
   final String desc;
+  final Color tint;
   final bool enabled;
   final VoidCallback onTap;
 
   const _SheetOption({
-    required this.emoji,
+    required this.icon,
     required this.label,
     required this.desc,
+    required this.tint,
     required this.enabled,
     required this.onTap,
   });
@@ -802,31 +794,41 @@ class _SheetOption extends StatelessWidget {
       child: GestureDetector(
         onTap: enabled ? onTap : null,
         child: Container(
+          padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.circular(11),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [tint.withOpacity(0.16), AppColors.white],
+            ),
+            borderRadius: BorderRadius.circular(AppValues.radiusLg + 4),
+            border: Border.all(color: tint.withOpacity(0.18)),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 20)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(label,
-                        style: GoogleFonts.poppins(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textDark)),
-                    Text(desc,
-                        style: GoogleFonts.poppins(
-                            fontSize: 9, color: AppColors.textMuted)),
-                  ],
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: tint,
+                  borderRadius: BorderRadius.circular(11),
                 ),
+                child: Icon(icon, color: AppColors.white, size: 20),
               ),
+              const SizedBox(height: 10),
+              Text(label,
+                  style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textDark)),
+              const SizedBox(height: 2),
+              Text(desc,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                      fontSize: 11, color: AppColors.black.withOpacity(0.55))),
             ],
           ),
         ),

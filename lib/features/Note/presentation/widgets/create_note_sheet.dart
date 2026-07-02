@@ -20,12 +20,11 @@ import 'hand_draw_canvas.dart'; // NEW
 class CreateNoteSheet extends StatefulWidget {
   final Color accentColor;
 
-  /// title, plainText, type ('Text'|'Voice'|'Image'|'HandDraw'), colorIndex (0-5)
   final void Function(
       String title,
       String plainText,
       String type,
-      int colorIndex,   // FIX 3: wired color
+      int colorIndex,   
       ) onCreated;
 
   const CreateNoteSheet({
@@ -101,7 +100,7 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
               child: Container(
                 width: 36, height: 4,
                 decoration: BoxDecoration(
-                    color: const Color(0xFFE0DCF0),
+                    color: AppColors.blobPurple,
                     borderRadius: BorderRadius.circular(2)),
               ),
             ),
@@ -116,12 +115,12 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
                     color: _accent.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(11),
                   ),
-                  child: Icon(Icons.note_add_rounded, color: _accent, size: 20),
+                  child: Icon(Icons.note_add_rounded, color: _accent, size: 25),
                 ),
                 const SizedBox(width: 11),
                 Text('Create Note',
                     style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.w700,
+                        fontSize: 19, fontWeight: FontWeight.w700,
                         color: const Color(0xFF1A1035))),
               ],
             ),
@@ -142,12 +141,12 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
             const SizedBox(height: 18),
 
             // ── Title ────────────────────────────────────────
-            _SLabel('Note Title *'),
+            _SLabel('Note Title '),
             const SizedBox(height: 6),
             TextField(
               controller: _titleCtrl,
               style: GoogleFonts.poppins(
-                  fontSize: 13, color: const Color(0xFF1A1035)),
+                  fontSize: 13, color: AppColors.textDark),
               decoration: _inputDecoration('Give your note a title...'),
             ),
             const SizedBox(height: 14),
@@ -166,14 +165,14 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
                     child: Container(
                       height: 48,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF5F3FF),
+                        color: AppColors.roleViewer.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(13),
                         border: Border.all(color: _accent.withOpacity(0.2)),
                       ),
                       child: Center(
                         child: Text('Cancel',
                             style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.textSecondary)),
                       ),
@@ -200,7 +199,7 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
                       child: Center(
                         child: Text('Create Note',
                             style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white)),
                       ),
@@ -228,8 +227,8 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 4,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 5,
       childAspectRatio: 0.85,
       children: types.map((item) {
         final isSelected = _selectedType == item.$1;
@@ -240,7 +239,7 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
             decoration: BoxDecoration(
               color: isSelected
                   ? _accent.withOpacity(0.1)
-                  : const Color(0xFFF8F7FF),
+                  : AppColors.roleViewer.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isSelected ? _accent : const Color(0xFFE8E4FF),
@@ -251,16 +250,16 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(item.$3,
-                    color: isSelected ? _accent : AppColors.textMuted,
-                    size: 20),
+                    color: isSelected ? _accent : AppColors.roleViewer,
+                    size: 30),
                 const SizedBox(height: 4),
                 Text(item.$2,
                     style: GoogleFonts.poppins(
-                        fontSize: 10,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: isSelected
                             ? _accent
-                            : AppColors.textSecondary)),
+                            : AppColors.roleViewer)),
               ],
             ),
           ),
@@ -280,7 +279,7 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
             onTap: () => setState(() => _colorIdx = i),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              width: 28, height: 28,
+              width: 32, height: 32,
               decoration: BoxDecoration(
                 color: _noteColors[i],
                 shape: BoxShape.circle,
@@ -326,14 +325,14 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
       case NoteType.voice:
         return _PlaceholderBox(
           icon: Icons.mic_rounded,
-          message: 'Voice recording — coming soon',
+          message: 'Voice recording',
           color: _accent,
         );
 
       case NoteType.image:
         return _PlaceholderBox(
           icon: Icons.add_photo_alternate_rounded,
-          message: 'Tap to add image — coming soon',
+          message: 'Tap to add image ',
           color: _accent,
           dashed: true,
         );
@@ -351,7 +350,7 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
                   onTap: () => setState(() => _drawStrokes = []),
                   child: Text('Clear',
                       style: GoogleFonts.poppins(
-                          fontSize: 11,
+                          fontSize: 12,
                           color: AppColors.error,
                           fontWeight: FontWeight.w600)),
                 ),
@@ -373,9 +372,9 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
     return InputDecoration(
       hintText: hint,
       hintStyle: GoogleFonts.poppins(
-          fontSize: 13, color: AppColors.textHint),
+          fontSize: 13, color: AppColors.roleViewer),
       filled: true,
-      fillColor: const Color(0xFFF8F7FF),
+      fillColor: AppColors.roleViewer.withOpacity(0.15),
       contentPadding:
       const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
       border: OutlineInputBorder(
@@ -411,7 +410,7 @@ class _PlaceholderBox extends StatelessWidget {
       height: 100,
       margin: const EdgeInsets.only(top: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F7FF),
+        color: AppColors.roleViewer.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: color.withOpacity(0.2),
@@ -425,7 +424,7 @@ class _PlaceholderBox extends StatelessWidget {
           const SizedBox(height: 8),
           Text(message,
               style: GoogleFonts.poppins(
-                  fontSize: 12, color: AppColors.textMuted)),
+                  fontSize: 15, color: AppColors.textSecondary)),
         ],
       ),
     );
@@ -440,7 +439,7 @@ class _SLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(text,
       style: GoogleFonts.poppins(
-          fontSize: 13,
+          fontSize: 17,
           fontWeight: FontWeight.w600,
           color: const Color(0xFF1A1035)));
 }
