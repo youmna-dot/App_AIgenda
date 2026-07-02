@@ -1,17 +1,17 @@
 // lib/features/space/presentation/widgets/space_details/space_detail_header.dart
 //
-// REDESIGN — مطابق للصورة:
-//  • Header: back + space name (center) + settings icon
-//  • Stats row: 3 cards (Notes | Team | Done%)
-//  • كل الأرقام real data من TaskState + NoteState
-//  • لا يوجد stats ثابتة
+// REDESIGN — Space Overview header
+//  • Top row: back button دائري + اسم الـ space (center) + settings دائري
+//    (نفس ستايل DashHeader / _EditProfileAppBar: primary.withOpacity(0.14) دائرة)
+//  • Stats row: 3 cards (Notes | Team | Done%) مع blobs زخرفية خلفهم
+//  • كل الأرقام real data — جايه من TaskState + NoteState + workspace member count
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_icons.dart';
 import '../../../../../core/constants/app_values.dart';
-import '../../../../../core/core_widgets/custom_back_button.dart';
 
 class SpaceDetailHeader extends StatelessWidget {
   final String spaceName;
@@ -21,12 +21,12 @@ class SpaceDetailHeader extends StatelessWidget {
 
   // ✅ Real data — computed from TaskCubit + NoteCubit in screen
   final int completionPct;   // 0–100, computed: doneCount/taskCount*100
-  final int taskCount;       // ✅ from TaskState
-  final int doneCount;       // ✅ from TaskState
-  final int overdueCount;    // ✅ from TaskState (tasks past dueDate)
-  final int noteCount;       // ✅ from NoteState
-  final int pinnedNoteCount; // ✅ from NoteState
-  final int teamCount;       // ✅ from workspace.numberOfMembers (passed from parent)
+  final int taskCount;
+  final int doneCount;
+  final int overdueCount;
+  final int noteCount;
+  final int pinnedNoteCount;
+  final int teamCount;       // ✅ لازم تتبعت من الشاشة اللي فاتحة الـ space (workspace member count)
   final String? nextDueLabel;
   final String? nextDueDaysLabel;
 
@@ -57,20 +57,20 @@ class SpaceDetailHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.background,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildTopRow(context),
-          const SizedBox(height: 12),
+          const SizedBox(height: 18),
           _buildStatsCards(),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
         ],
       ),
     );
   }
 
-  // ── Top row: back + name + settings ───────────────────────
+  // ── Top row: back دائري + name + more (3 dots) دائري ───────────
   Widget _buildTopRow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -78,40 +78,50 @@ class SpaceDetailHeader extends StatelessWidget {
           AppValues.horizontalPadding, 0),
       child: Row(
         children: [
-          // Back button
-          CustomBackButton(
-            iconColor: AppColors.textDark,
-            backgroundColor: Colors.transparent,
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                AppIcons.back,
+                color: AppColors.primary,
+                size: 20,
+              ),
+            ),
           ),
-          // Space name — centered
           Expanded(
             child: Text(
               spaceName,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
+                fontSize: 19,
+                fontWeight: FontWeight.w800,
                 color: AppColors.primary,
-                letterSpacing: -0.2,
+                letterSpacing: -0.3,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // Settings / more
           GestureDetector(
             onTap: onSettingsTap ?? () => _showActionsSheet(context),
             child: Container(
-              width: 36,
-              height: 36,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(10),
+                color: AppColors.primary.withOpacity(0.14),
+                shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.settings_outlined,
-                color: AppColors.textMuted,
-                size: 18,
+              child: const Icon(
+                // 3 نقط أفقية — شكل مختلف عن more_vert_rounded المستخدمة في DashHeader
+                Icons.more_horiz_rounded,
+                color: AppColors.primary,
+                size: 22,
               ),
             ),
           ),
@@ -120,39 +130,65 @@ class SpaceDetailHeader extends StatelessWidget {
     );
   }
 
-  // ── Stats cards row: Notes | Team | Done% ─────────────────
-  // ✅ كل الأرقام real — noteCount, teamCount, completionPct
+  // ── Stats cards row + decorative blobs ─────────────────────────
   Widget _buildStatsCards() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: AppValues.horizontalPadding),
-      child: Row(
+    return SizedBox(
+      height: 128,
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          // Notes card
-          _StatCard(
-            icon: Icons.sticky_note_2_outlined,
-            label: 'NOTES',
-            value: '$noteCount',
-            color: color,
+          // blobs زخرفية خلف الكروت — زي الصورة
+          Positioned(
+            top: -10,
+            left: -28,
+            child: _blob(size: AppValues.blobHeaderLg, color: AppColors.blobPurple),
           ),
-          const SizedBox(width: 10),
-          // Team card
-          _StatCard(
-            icon: Icons.people_outline_rounded,
-            label: 'TEAM',
-            value: '$teamCount',
-            color: color,
+          Positioned(
+            top: 8,
+            right: 36,
+            child: _blob(size: AppValues.blobHeaderSm, color: AppColors.blobBlue),
           ),
-          const SizedBox(width: 10),
-          // Done% card
-          _StatCard(
-            icon: Icons.bar_chart_rounded,
-            label: 'DONE',
-            value: '$completionPct%',
-            color: color,
-            isHighlighted: true,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppValues.horizontalPadding),
+            child: Row(
+              children: [
+                _StatCard(
+                  icon: Icons.sticky_note_2_outlined,
+                  label: 'NOTES',
+                  value: '$noteCount',
+                  color: color,
+                ),
+                const SizedBox(width: 10),
+                _StatCard(
+                  icon: Icons.people_outline_rounded,
+                  label: 'TEAM',
+                  value: '$teamCount',
+                  color: color,
+                ),
+                const SizedBox(width: 10),
+                _StatCard(
+                  icon: Icons.bar_chart_rounded,
+                  label: 'DONE',
+                  value: '$completionPct%',
+                  color: AppColors.gradientBlue,
+                  isHighlighted: true,
+                ),
+              ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _blob({required double size, required Color color}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.35),
+        borderRadius: BorderRadius.circular(size * 0.4),
       ),
     );
   }
@@ -191,36 +227,37 @@ class _StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         decoration: BoxDecoration(
-          // Highlighted card بيكون أفتح من لون الـ space
-          color: isHighlighted
-              ? color.withOpacity(0.08)
-              : AppColors.background,
-          borderRadius: BorderRadius.circular(AppValues.radiusLg),
-          border: Border.all(
-            color: color.withOpacity(0.15),
-            width: 0.8,
-          ),
+          color: AppColors.roleViewer.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(AppValues.radiusLg + 4),
+          border: Border.all(color: color.withOpacity(0.14), width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.10),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
         child: Column(
           children: [
-            Icon(icon, size: 22, color: color.withOpacity(0.7)),
-            const SizedBox(height: 6),
+            Icon(icon, size: 22, color: color.withOpacity(0.75)),
+            const SizedBox(height: 12),
             Text(
               label,
               style: GoogleFonts.poppins(
-                fontSize: 9,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textMuted,
-                letterSpacing: 0.5,
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textDark.withOpacity(0.7),
+                letterSpacing: 0.6,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 12),
             Text(
               value,
               style: GoogleFonts.poppins(
-                fontSize: 22,
+                fontSize: 25,
                 fontWeight: FontWeight.w800,
                 color: isHighlighted ? color : AppColors.textDark,
                 height: 1,

@@ -102,6 +102,24 @@ class AppColors {
   // ── Misc UI ───────────────────────────────────────────────────
   static const Color primaryLight = Color(0xFFF0EBFF);
   static const Color dividerLight = Color(0xFFF5F3FF);
+
+  // ── Space Overview (dashboard) — pastel card tints ────────────
+  // مستخدمة في التاسك/نوت preview cards بشاشة الـ Space overview
+  static const Color pastelLavender = Color(0xFFEFE9FE);
+  static const Color pastelBlue     = Color(0xFFE3F3FE);
+  static const Color pastelPeach    = Color(0xFFFFEEDD);
+
+  // ── Priority badges (Space overview task cards) ────────────────
+  static const Color priorityHighBg   = Color(0xFFFCE1DE);
+  static const Color priorityHighText = Color(0xFFD1483D);
+  static const Color priorityMedBg    = Color(0xFFEAE1FB);
+  static const Color priorityMedText  = Color(0xFF7C4DBE);
+  static const Color priorityLowBg    = Color(0xFFE1F5E9);
+  static const Color priorityLowText  = Color(0xFF2F9E5B);
+
+  // ── Decorative blob accents (behind stat cards) ────────────────
+  static const Color blobPurple = Color(0xFFD9CCFB);
+  static const Color blobBlue   = Color(0xFFBFE0F7);
 }
 
 // import 'package:flutter/material.dart';

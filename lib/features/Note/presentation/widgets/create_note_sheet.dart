@@ -7,7 +7,10 @@
 //     (0-5) → callers should pass it to createNoteAndReturn / backend if supported
 //  3. HandDraw type shows a real finger-drawing canvas (hand_draw_canvas.dart)
 //  4. Voice/Image show proper placeholder UIs
+//  5. Color palette now sourced from NoteColorService — single source of truth
+//     shared with NotePreviewCard, so the saved color always matches the picker.
 
+import 'package:ajenda_app/features/space/presentation/utils/note_color_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -40,10 +43,9 @@ class _CreateNoteSheetState extends State<CreateNoteSheet> {
   final _contentCtrl = TextEditingController();
   NoteType _selectedType = NoteType.text;
 
-  static const _noteColors = [
-    Color(0xFF6C4AB6), Color(0xFF1D9E75), Color(0xFF4A90E2),
-    Color(0xFFE11D8E), Color(0xFFF59E0B), Color(0xFFEF4444),
-  ];
+  // Single source of truth shared with NoteColorService, so the palette
+  // shown here always matches the one used to persist/render note colors.
+  static final List<Color> _noteColors = NoteColorService.palette;
   int _colorIdx = 0;
 
   // HandDraw strokes captured from the canvas

@@ -46,4 +46,8 @@ class AppValues {
   static const double inviteFabHeight = 52.0; // ارتفاع الـ FAB + submit button
   static const double blobSizeLg = 200.0; // الـ blob الكبير في الخلفية
   static const double blobSizeSm = 180.0;
+
+  // Space overview header — decorative blob sizes خلف الـ stat cards
+  static const double blobHeaderLg = 70.0;
+  static const double blobHeaderSm = 55.0;
 }
